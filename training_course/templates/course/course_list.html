@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form id="filter_form" method="GET">
+    <div class="filters">
+        <div class="app__filters">
+            <div class="filter-detail">
+                <label for="{{ filter.form.category.id_for_label }}" class="filter__label">
+                    {{ filter.form.category.label }}
+                </label>
+                {{ filter.form.category }}
+            </div>
+
+            <div class="filter-detail">
+                <label for="{{ filter.form.name.id_for_label }}" class="filter__label">
+                    {{ filter.form.name.label }}
+                </label>
+                {{ filter.form.name }}
+            </div>
+
+            <div class="filter-detail">
+                <label for="{{ filter.form.responsible.id_for_label }}" class="filter__label">
+                    {{ filter.form.responsible.label }}
+                </label>
+                {{ filter.form.responsible }}
+            </div>
+        </div>
+
+        <button class="filter__btn" type="submit" form="filter_form">Применить</button>
+
+    </div>
+    {% for course in course_list %}
+    <section class="course-item">
+        <div class="img-content">
+            <img src="{{ course.get_image }}" alt="Картинка курса"/>
+            <p>{{ course.get_data }}</p>
+        </div>
+        <div>
+            <div class="content">
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+            </div>
+            <input type="submit" class="more-information" value="Узнать больше"/>
+            <input type="submit" class="subscribe" value="Подписаться"/>
+        </div>
+    </section>
+    {% endfor %}
+</form>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<form class="form-create" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="form-label">
+        <label for="{{ form.name.id_for_label }}">Введите название: </label>
+        {{ form.name }}
+    </div>
+    <div class="form-label">
+        <label for="{{ form.description.id_for_label }}">Введите описание: </label>
+        {{ form.description }}
+    </div>
+    <div class="form-label">
+        <label for="{{ form.category.id_for_label }}">Выберите категорию: </label>
+        {{ form.category }}
+    </div>
+    <div class="form-label">
+        <label for="{{ form.level.id_for_label }}">Выберите сложность: </label>
+        {{ form.level }}
+    </div>
+    <div class="form-label">
+        <label for="{{ form.from_data.id_for_label }}">С какого числа: </label>
+        <input type="date" id="id_from_data" name="from_data"/>
+        <label for="{{ form.to_data.id_for_label }}">По какое число: </label>
+        <input type="date" id="id_to_data" name="to_data"/>
+    </div>
+    <div class="form-label">
+        <label for="{{ form.from_data.id_for_label }}">Будет ли ограничение на подписку по времени: </label>
+        {{ form.time_is_fixed }}
+        <div id="admission_days-block">
+            <label for="{{ form.days_admission.id_for_label }}">На сколько дней: </label>
+            <input id="{{ form.days_admission.id_for_label }}" type="number" name="days_admission" min="0" value="0"/>
+        </div>
+    </div>
+    <label for="{{ form.image.id_for_label }}">
+        Выбрать картинку курса:
+        {{ form.image }}
+    </label>
+    <input type="submit" value="Создать курс"/>
+</form>
+
+<script src="{% static 'training_course/js/for_create_and_update_course.js' %}" defer></script>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile">
+    <img class="profile_img" src={{ profile.get_avatar}} alt="Фото профиля"/>
+    <div class="profile_main_information">
+        <div class="label-profile">
+            <h4>Фамилия:</h4>
+            <p>{{ profile.first_name }}</p>
+        </div>
+        <div class="label-profile">
+            <h4>Имя:</h4>
+            <p>{{ profile.last_name }}</p>
+        </div>
+        <div class="label-profile">
+            <h4>Отчество:</h4>
+            <p>{{ profile.patronymic }}</p>
+        </div>
+        <div class="label-profile">
+            <h4>Дата рождения:</h4>
+            <p>{{ profile.birthday|date:"d.m.Y" }}</p>
+        </div>
+        <div class="label-profile">
+            <h4>Почта:</h4>
+            <p>{{ user.email|default:"не указана" }}</p>
+        </div>
+        <a href="{% url 'core:profile_update' user.profile.pk %}">
+            <input type="submit" value="Изменить"/>
+        </a>
+    </div>
+</div>
+{% if user.is_staff %}
+<div class="my_courses content-courses">
+    <div class="courses-header">
+        <h2>Мои курсы</h2>
+        <a href="{% url 'training_course:course_create' %}">
+            <input type="submit" value="Создать"/>
+        </a>
+    </div>
+    <h4>Программирование</h4>
+    <h4>История</h4>
+</div>
+{% endif %}
+<div class="my_subscriptions content-courses">
+    <h2>Мои подписки</h2>
+    <h4>Программирование</h4>
+    <h4>История</h4>
+</div>
+{% endblock %}

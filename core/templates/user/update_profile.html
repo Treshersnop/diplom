@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <form class="profile"
+          action="{% url 'core:profile_update' profile.pk %}"
+          enctype="multipart/form-data"
+          method="POST">
+        {% csrf_token %}
+        <div class="profile-container">
+            <img class="profile_img" src={{ profile.get_avatar }} alt="Фото профиля"/>
+            <label for="{{ form.avatar.id_for_label }}">
+                Прикрепить фото профиля
+                {{ form.avatar }}
+            </label>
+        </div>
+        <div class="profile_main_information">
+            <div class="label-profile">
+                <h4>Фамилия:</h4>
+                {{ form.first_name }}
+            </div>
+            <div class="label-profile">
+                <h4>Имя:</h4>
+                {{ form.last_name }}
+            </div>
+            <div class="label-profile">
+                <h4>Отчество:</h4>
+                {{ form.patronymic }}
+            </div>
+            <div class="label-profile">
+                <h4>Дата рождения:</h4>
+                <input id="{{ form.birthday.id_for_label }}"
+                       name="birthday" type="date"
+                       value="{{ form.birthday.value|date:'Y-m-d' }}"/>
+            </div>
+            <div class="label-profile">
+                <h4>Почта:</h4>
+                {{ form.email }}
+            </div>
+            <input type="submit" name="update-button" value="Сохранить"/>
+        </div>
+    </form>
+</div>
+{% endblock %}
