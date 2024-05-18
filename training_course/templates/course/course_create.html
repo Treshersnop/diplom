@@ -27,21 +27,11 @@
         <label for="{{ form.to_data.id_for_label }}">По какое число: </label>
         <input type="date" id="id_to_data" name="to_data"/>
     </div>
-    <div class="form-label">
-        <label for="{{ form.from_data.id_for_label }}">Будет ли ограничение на подписку по времени: </label>
-        {{ form.time_is_fixed }}
-        <div id="admission_days-block">
-            <label for="{{ form.days_admission.id_for_label }}">На сколько дней: </label>
-            <input id="{{ form.days_admission.id_for_label }}" type="number" name="days_admission" min="0" value="0"/>
-        </div>
-    </div>
     <label for="{{ form.image.id_for_label }}">
         Выбрать картинку курса:
         {{ form.image }}
     </label>
     <input type="submit" value="Создать курс"/>
 </form>
-
-<script src="{% static 'training_course/js/for_create_and_update_course.js' %}" defer></script>
 
 {% endblock %}

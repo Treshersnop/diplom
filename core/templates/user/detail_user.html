@@ -2,7 +2,9 @@
 
 {% block content %}
 <div class="profile">
-    <img class="profile_img" src={{ profile.get_avatar}} alt="Фото профиля"/>
+    <div class="profile-container">
+        <img class="profile_img" src={{ profile.get_avatar}} alt="Фото профиля"/>
+    </div>
     <div class="profile_main_information">
         <div class="label-profile">
             <h4>Фамилия:</h4>

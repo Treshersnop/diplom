@@ -1,4 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="course">
+    <div class="course-main-information">
+        <div class="course-main-information-text">
+            <div class="label-course">
+                <h4>Категория:</h4>
+                <p>{{ course.category|default:'Не указана' }}</p>
+            </div>
+            <div class="label-course">
+                <h4>Уровень сложности:</h4>
+                <p>{{ course.get_level_display }}</p>
+            </div>
+            <div class="label-course">
+                <h4>Название:</h4>
+                <p>{{ course.name }}</p>
+            </div>
+
+            <div class="label-course">
+                <h4>Преподаватели:</h4>
+                <p>Фронт-енд</p>
+            </div>
+        </div>
+        <div class="img-content">
+            <img class="course_img" src="{{ course.get_image }}" alt="Картинка курса"/>
+            <p>{{ course.get_data }}</p>
+        </div>
+    </div>
+    <div class="course-add-information">
+        <h4>Описание:</h4>
+        <p class="label-course-other">
+            {{ course.description }}
+        </p>
+        <input type="submit" value="Подписаться"/>
+    </div>
+</div>
 {% endblock %}

@@ -5,6 +5,7 @@ from django.db.models import QuerySet, Q
 from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.views.generic import ListView, DetailView, CreateView
+from rest_framework.request import Request
 
 from training_course import models, filters, forms
 
@@ -28,8 +29,16 @@ class CourseList(ListView):
 
 
 class CourseDetail(DetailView):
-    pass
+    model = models.TrainingCourse
+    template_name = 'course/course_detail.html'
+    context_object_name = 'course'
 
+    def get_context_data(self, *, object_list: Any = None, **kwargs: dict) -> dict:
+        context = super().get_context_data(object_list=None, **kwargs)
+        course = self.get_object()
+        user = self.request.user
+        context['has_edit'] = course.responsible.filter(id=user.id).exists()
+        return context
 
 class CourseCreate(LoginRequiredMixin, CreateView):
     form_class = forms.CreateCourse

@@ -40,3 +40,52 @@
 #admission_days-block {
   display: none;
   }
+
+.course-main-information, .course-add-information {
+  font-size: 32px;
+  display: flex;
+
+  h4 {
+    padding: 18px 0 18px 100px;
+  }
+
+  p {
+    padding: 20px 9px;
+    text-decoration: underline;
+  }
+
+  .label-course-other {
+    margin: 0 20px 0 90px;
+    text-indent: 50px;
+  }
+
+  input[type='submit'] {
+    background: #92b775;
+    border: 2px solid #133215;
+    padding: 7px;
+    margin: 20px 0 20px 100px;
+    border-radius: 7px;
+    font-size: 28px;
+  }
+
+  input:hover {
+    background: #4d7131;
+  }
+}
+
+.course-main-information-text {
+  margin: 20px 0 0 0;
+  width: 70%;
+}
+
+.course-add-information {
+  display: block;
+}
+
+.course_img {
+  margin: 25px 25px 0  0;
+  padding: 5px;
+  border: 3px solid #133215;
+  width: 500px;
+  height: 500px;
+}

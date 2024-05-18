@@ -36,9 +36,6 @@ class TrainingCourse(models.Model):
         Category, verbose_name='Категория', related_name='courses', on_delete=models.SET_NULL, null=True, blank=True
     )
 
-    cost = models.FloatField('Стоимость', default=0, validators=[MinValueValidator(0.0)])
-    sale = models.PositiveSmallIntegerField('Скидка', default=0, validators=[MaxValueValidator(100)])
-
     responsible = models.ManyToManyField(
         'core.User', verbose_name='Ответственные', related_name='responsible_for_courses', blank=True
     )
@@ -47,8 +44,6 @@ class TrainingCourse(models.Model):
                                  null=True, blank=True)
     to_data = models.DateField('Окончание курса', help_text='Какого числа заканчивается курс',
                                null=True, blank=True)
-    time_is_fixed = models.BooleanField('Ограничено по времени', default=False)
-    days_admission = models.PositiveSmallIntegerField('На сколько дней доступ', null=True)
 
     level = models.CharField(
         'Уровень сложности', max_length=255, choices=consts.LEVEL_CHOICES, default=consts.LEVEL_FOR_BEGINNERS
@@ -86,12 +81,7 @@ class Lesson(models.Model):
         TrainingCourse, verbose_name='К курсу', related_name='lessons', on_delete=models.CASCADE, null=True, blank=True
     )
     description = models.TextField('Описание', blank=True)
-    viewed_users = models.ManyToManyField(
-        'core.User',
-        verbose_name='Просмотревшие пользователи',
-        related_name='viewed_lessons',
-        blank=True,
-    )
+    link = models.URLField('Ссылка на внешний сервис', blank=True)
 
     class Meta:
         verbose_name = 'Урок'
