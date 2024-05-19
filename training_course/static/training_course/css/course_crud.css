@@ -58,19 +58,30 @@
     margin: 0 20px 0 90px;
     text-indent: 50px;
   }
+}
 
-  input[type='submit'] {
-    background: #92b775;
-    border: 2px solid #133215;
-    padding: 7px;
-    margin: 20px 0 20px 100px;
-    border-radius: 7px;
-    font-size: 28px;
-  }
+.follow {
+  border: 2px solid #133215;
+  padding: 7px;
+  margin: 20px 0 20px 100px;
+  border-radius: 7px;
+  font-size: 28px;
+}
 
-  input:hover {
-    background: #4d7131;
-  }
+.button-for-authorized {
+  background-color: #92b775;
+}
+
+.button-for-authorized:hover {
+  background: #4d7131;
+}
+
+.button-for-not-authorized {
+  background-color: #a9b1a2;
+}
+
+.button-for-not-authorized:hover {
+  content: visible;
 }
 
 .course-main-information-text {

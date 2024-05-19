@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load course_tag %}
+
 {% block content %}
 <div class="course">
     <div class="course-main-information">
@@ -32,7 +34,22 @@
         <p class="label-course-other">
             {{ course.description }}
         </p>
-        <input type="submit" value="Подписаться"/>
+        {% if not course|is_user_responsible_for_course:user.id %}
+        {% if course|user_has_subscription:user.id %}
+        <form action="{% url 'training_course:delete_subscription' course.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="follow button-for-authorized" value="Отписаться"/>
+        </form>
+
+        {% elif user.is_authenticated %}
+        <form action="{% url 'training_course:create_subscription' course.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="follow button-for-authorized" value="Подписаться"/>
+        </form>
+        {% else %}
+        <input type="submit" class="follow button-for-not-authorized" value="Подписаться" title="Авторизуйтесь"/>
+        {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
