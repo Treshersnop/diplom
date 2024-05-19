@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -9,6 +11,7 @@ from django.views.generic import FormView, DetailView, UpdateView
 from rest_framework.request import Request
 
 from core import forms, models
+import training_course.models
 
 
 class Login(LoginView):
@@ -56,6 +59,20 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     model = models.UserProfile
     template_name = 'user/detail_user.html'
     context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs: Any) -> dict:
+        context = super().get_context_data(**kwargs)
+
+        context['user_responsible_for_courses'] = (
+            training_course.models.TrainingCourse.objects.filter(responsible=self.request.user).values('id', 'name')
+        )
+
+        context['subscriptions'] = (
+            training_course.models.Subscription.objects.filter(user=self.request.user, is_blocked=False).
+            values('course__id', 'course__name')
+        )
+
+        return context
 
     def get(self, request: Request, *args: list, **kwargs: dict) -> HttpResponse | Http404:
         current_user = self.request.user

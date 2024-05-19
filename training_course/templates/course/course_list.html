@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load course_tag %}
+
 {% block content %}
 <form id="filter_form" method="GET">
     <div class="filters">
@@ -29,21 +31,39 @@
         <button class="filter__btn" type="submit" form="filter_form">Применить</button>
 
     </div>
-    {% for course in course_list %}
-    <section class="course-item">
-        <div class="img-content">
-            <img src="{{ course.get_image }}" alt="Картинка курса"/>
-            <p>{{ course.get_data }}</p>
-        </div>
-        <div>
-            <div class="content">
-                <h2>{{ course.name }}</h2>
-                <p>{{ course.description }}</p>
-            </div>
-            <input type="submit" class="more-information" value="Узнать больше"/>
-            <input type="submit" class="subscribe" value="Подписаться"/>
-        </div>
-    </section>
-    {% endfor %}
 </form>
+{% for course in course_list %}
+<section class="course-item">
+    <div class="img-content">
+        <img src="{{ course.get_image }}" alt="Картинка курса"/>
+        <p>{{ course.get_data }}</p>
+    </div>
+    <div>
+        <div class="content">
+            <h2>{{ course.name }}</h2>
+            <p>{{ course.description }}</p>
+        </div>
+
+        {% if not course|is_user_responsible_for_course:user.id %}
+        {% if course|user_has_subscription:user.id %}
+        <form action="{% url 'training_course:delete_subscription' course.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="subscribe" value="Отписаться"/>
+        </form>
+
+        {% elif user.is_authenticated %}
+        <form action="{% url 'training_course:create_subscription' course.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="subscribe" value="Подписаться"/>
+        </form>
+        {% else %}
+        <input type="submit" class="subscribe not-authenticate" value="Подписаться" title="Авторизуйтесь"/>
+        {% endif %}
+        {% endif %}
+        <a href="{% url 'training_course:course_detail' course.id %}">
+            <input type="button" class="more-information" value="Узнать больше"/>
+        </a>
+    </div>
+</section>
+{% endfor %}
 {% endblock %}

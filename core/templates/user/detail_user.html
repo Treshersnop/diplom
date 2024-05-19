@@ -39,13 +39,19 @@
             <input type="submit" value="Создать"/>
         </a>
     </div>
-    <h4>Программирование</h4>
-    <h4>История</h4>
+    {% for course in user_responsible_for_courses %}
+    <a href="{% url 'training_course:course_detail' course.id %}">
+        <h4>{{ forloop.counter }}. {{ course.name }}</h4>
+    </a>
+    {% endfor %}
 </div>
 {% endif %}
 <div class="my_subscriptions content-courses">
     <h2>Мои подписки</h2>
-    <h4>Программирование</h4>
-    <h4>История</h4>
+    {% for subscription in subscriptions %}
+    <a href="{% url 'training_course:course_detail' subscription.course__id %}">
+        <h4>{{ forloop.counter }}. {{ subscription.course__name }}</h4>
+    </a>
+    {% endfor %}
 </div>
 {% endblock %}

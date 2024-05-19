@@ -2,16 +2,16 @@ from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet, Q
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.timezone import now
 from django.views.generic import ListView, DetailView, CreateView
-from rest_framework.request import Request
 
 from training_course import models, filters, forms
 
 
 class CourseList(ListView):
-    queryset = models.TrainingCourse.objects.all()
+    queryset = models.TrainingCourse
     template_name = 'course/course_list.html'
     context_object_name = 'course_list'
 
@@ -40,13 +40,12 @@ class CourseDetail(DetailView):
         context['has_edit'] = course.responsible.filter(id=user.id).exists()
         return context
 
+
 class CourseCreate(LoginRequiredMixin, CreateView):
     form_class = forms.CreateCourse
     template_name = 'course/course_create.html'
 
     def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-    def get_success_url(self) -> str:
-        return reverse_lazy('training_course:course_list')
+        course = form.save()
+        course.responsible.add(self.request.user.id)
+        return HttpResponseRedirect(reverse('training_course:course_detail', kwargs={'pk': course.id}))

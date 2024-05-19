@@ -113,7 +113,6 @@ class Subscription(models.Model):
         'core.User', verbose_name='Пользователь', related_name='subscriptions', on_delete=models.CASCADE
     )
     is_blocked = models.BooleanField('Заблокирована', default=False)
-    is_active = models.BooleanField('Активная', default=True)
 
     class Meta:
         verbose_name = 'Подписка'

@@ -51,6 +51,6 @@ class HomeworkFile(admin.ModelAdmin):
 
 @admin.register(models.Subscription)
 class Subscription(admin.ModelAdmin):
-    list_display = ('course', 'user', 'is_active')
+    list_display = ('course', 'user', 'is_blocked')
     search_fields = ('course__name', 'user__profile__last_name', 'user__profile__name')
-    list_filter = ('is_active',)
+    list_filter = ('is_blocked',)

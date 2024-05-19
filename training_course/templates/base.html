@@ -20,7 +20,7 @@
     <h1>LessonPark</h1>
     {% if user.username %}
     <div class="authorization">
-        {% if user.profile %}
+        {% if user.is_authenticated %}
         <form method="post">
         {% csrf_token %}
         <a href="{% url 'core:profile' pk=user.profile.pk %}">

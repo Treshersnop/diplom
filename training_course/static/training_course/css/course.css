@@ -35,7 +35,20 @@
   font-size: 20px;
   position: absolute;
   bottom: 20px;
-  right: 50px;
+  right: 280px;
+}
+
+.subscribe:hover, .more-information:hover {
+  background: #558034;
+}
+
+.not-authenticate {
+  background: #a9b1a2;
+}
+
+.not-authenticate:hover {
+  content: visible;
+  background: #a9b1a2;
 }
 
 .more-information {
@@ -46,7 +59,7 @@
   font-size: 20px;
   position: absolute;
   bottom: 20px;
-  right: 250px;
+  right: 50px;
 }
 
 .img-content{
