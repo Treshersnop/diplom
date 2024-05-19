@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load course_tag %}
+
+{% block content %}
+<div class="course">
+    <div class="course-main-information">
+        <div class="lesson-main-information">
+            <div class="name-course">
+                <h1>Курс: {{ lesson.course.name }}</h1>
+            </div>
+            <div class="label-lesson">
+                <h4>Название:</h4>
+                <p>{{ lesson.name }}</p>
+            </div>
+            <h4>Описание:</h4>
+            <p class="label-lesson-other">
+                {{ lesson.description }}
+            </p>
+            {% if lesson.link %}
+            <div>
+                <h4>Перейти по ссылке:</h4>
+                <a href="{{ lesson.link }}">
+                    <p class="lesson-files">{{ lesson.link }}</p>
+                </a>
+            </div>
+            {% endif %}
+            <div>
+                <h4>Файлы к уроку:</h4>
+                {% for file in lesson.files.all %}
+                <a href="{{ file.get_absolute_file_url }}">
+                    <p class="lesson-files">{{ forloop.counter }}. {{ file.name }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="course-add-information">
+        {% if lesson.course|is_user_responsible_for_course:user.id %}
+        <a href="{% url 'training_course:lesson_update' lesson.id %}">
+            <input type="button" class="follow button-for-authorized" value="Изменить"/>
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -100,6 +100,9 @@ class LessonFile(models.Model):
     def __str__(self) -> str:
         return f'{self.name} к уроку {self.lesson}'
 
+    def get_absolute_file_url(self) -> str:
+        return self.file.url
+
 
 class Subscription(models.Model):
     course = models.ForeignKey(
@@ -146,6 +149,9 @@ class TaskFile(models.Model):
     def __str__(self) -> str:
         return f'{self.name} к уроку {self.task}'
 
+    def get_absolute_file_url(self) -> str:
+        return self.file.url
+
 
 class Homework(models.Model):
     learner = models.ForeignKey(
@@ -178,3 +184,6 @@ class HomeworkFile(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name} к д/з {self.homework}'
+
+    def get_absolute_file_url(self) -> str:
+        return self.file.url

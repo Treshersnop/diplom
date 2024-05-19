@@ -1,0 +1,13 @@
+.lesson-files {
+  margin: 0 0 0 90px;
+}
+
+.lesson-for-not-authorized {
+  padding: 20px 0 20px 20px;
+  color: #a9b1a2;
+}
+
+.lesson-for-not-authorized:hover {
+  content: visible;
+  color: #a9b1a2;
+}

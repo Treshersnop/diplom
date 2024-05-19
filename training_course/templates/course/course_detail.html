@@ -6,6 +6,10 @@
 <div class="course">
     <div class="course-main-information">
         <div class="course-main-information-text">
+
+            <div class="name-course">
+                <h1>Название: {{ course.name }}</h1>
+            </div>
             <div class="label-course">
                 <h4>Категория:</h4>
                 <p>{{ course.category|default:'Не указана' }}</p>
@@ -14,11 +18,6 @@
                 <h4>Уровень сложности:</h4>
                 <p>{{ course.get_level_display }}</p>
             </div>
-            <div class="label-course">
-                <h4>Название:</h4>
-                <p>{{ course.name }}</p>
-            </div>
-
             <div class="label-course">
                 <h4>Преподаватели:</h4>
                 <p>Фронт-енд</p>
@@ -55,5 +54,28 @@
         {% endif %}
         {% endif %}
     </div>
+
 </div>
+<div class="lessons">
+    <div class="lessons-header">
+        <h2>Уроки</h2>
+        {% if course|is_user_responsible_for_course:user.id %}
+        <a href="{% url 'training_course:course_create' %}">
+            <input type="submit" value="Создать"/>
+        </a>
+        {% endif %}
+    </div>
+    {% if course|user_has_subscription:user.id %}
+    {% for lesson in course.lessons.all %}
+    <a href="{% url 'training_course:lesson_detail' lesson.id %}">
+        <h4 class="link-for-authorized">{{ forloop.counter }}. {{ lesson.name }}</h4>
+    </a>
+    {% endfor %}
+    {% else %}
+    {% for lesson in course.lessons.all %}
+        <h4 class="lesson-for-not-authorized" title="Авторизуйтесь">{{ forloop.counter }}. {{ lesson.name }}</h4>
+    {% endfor %}
+    {% endif %}
+</div>
+
 {% endblock %}

@@ -41,7 +41,7 @@
     </div>
     {% for course in user_responsible_for_courses %}
     <a href="{% url 'training_course:course_detail' course.id %}">
-        <h4>{{ forloop.counter }}. {{ course.name }}</h4>
+        <h4 class="link-for-authorized">{{ forloop.counter }}. {{ course.name }}</h4>
     </a>
     {% endfor %}
 </div>
@@ -50,7 +50,7 @@
     <h2>Мои подписки</h2>
     {% for subscription in subscriptions %}
     <a href="{% url 'training_course:course_detail' subscription.course__id %}">
-        <h4>{{ forloop.counter }}. {{ subscription.course__name }}</h4>
+        <h4 class="link-for-authorized">{{ forloop.counter }}. {{ subscription.course__name }}</h4>
     </a>
     {% endfor %}
 </div>

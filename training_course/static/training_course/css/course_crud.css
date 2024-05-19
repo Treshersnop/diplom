@@ -41,9 +41,14 @@
   display: none;
   }
 
-.course-main-information, .course-add-information {
+.course-main-information, .course-add-information, .lesson-main-information {
   font-size: 32px;
   display: flex;
+
+  h1 {
+    font-weight: 700;
+    padding: 18px 0 18px 100px;
+  }
 
   h4 {
     padding: 18px 0 18px 100px;
@@ -54,10 +59,15 @@
     text-decoration: underline;
   }
 
-  .label-course-other {
+  .label-course-other, .label-lesson-other {
     margin: 0 20px 0 90px;
     text-indent: 50px;
   }
+}
+
+.lesson-main-information {
+  margin: 20px 0 0 0;
+  display: block;
 }
 
 .follow {

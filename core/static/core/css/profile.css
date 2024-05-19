@@ -56,32 +56,26 @@
   }
 }
 
-.label-profile, .label-course {
+.label-profile, .label-course, .label-lesson {
   display: flex;
 }
 
-.content-courses {
+.content-courses, .lessons {
   min-width: 1400px;
   font-size: 32px;
-  margin: 40px 150px 20px 150px;
+  margin: 40px 150px 60px 150px;
   text-indent: 40px;
 
-  .courses-header {
+  .courses-header, .lessons-header {
     display: flex;
     justify-content: space-between;
     background-color: #92b775;
+    align-items: center;
   }
 
   h2 {
     background-color: #92b775;
-  }
-
-  h4 {
-    padding: 10px 0 15px 0;
-  }
-
-  h4:hover {
-    color: rgb(236, 110, 110);
+    padding: 20px;
   }
 
   input {
@@ -96,4 +90,16 @@
   input:hover {
     background: #4d7131;
   }
+}
+
+.link-for-authorized {
+  padding: 20px 0 20px 20px;
+}
+
+.link-for-authorized:hover {
+  color: rgb(236, 110, 110);
+}
+
+.lessons {
+  background-color: white;
 }
