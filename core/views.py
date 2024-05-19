@@ -1,4 +1,5 @@
 from typing import Any
+from urllib.request import Request
 
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, authenticate
@@ -6,9 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, Http404
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import FormView, DetailView, UpdateView
-from rest_framework.request import Request
 
 from core import forms, models
 import training_course.models

@@ -34,7 +34,11 @@
         <p class="label-course-other">
             {{ course.description }}
         </p>
-        {% if not course|is_user_responsible_for_course:user.id %}
+        {% if course|is_user_responsible_for_course:user.id %}
+        <a href="{% url 'training_course:course_update' course.id %}">
+            <input type="button" class="follow button-for-authorized" value="Изменить"/>
+        </a>
+        {% else %}
         {% if course|user_has_subscription:user.id %}
         <form action="{% url 'training_course:delete_subscription' course.id %}" method="POST">
             {% csrf_token %}

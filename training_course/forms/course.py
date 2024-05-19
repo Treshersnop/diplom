@@ -6,4 +6,10 @@ from training_course import models
 class CreateCourse(forms.ModelForm):
     class Meta:
         model = models.TrainingCourse
-        exclude = ('is_active', 'number_of_clicks', 'cost', 'sale')
+        exclude = ('is_active', 'number_of_clicks')
+
+
+class UpdateCourse(forms.ModelForm):
+    class Meta:
+        model = models.TrainingCourse
+        exclude = ('is_active', 'number_of_clicks', 'responsible')

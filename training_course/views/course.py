@@ -2,10 +2,11 @@ from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import QuerySet, Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.utils.timezone import now
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from requests import Request
 
 from training_course import models, filters, forms
 
@@ -33,13 +34,6 @@ class CourseDetail(DetailView):
     template_name = 'course/course_detail.html'
     context_object_name = 'course'
 
-    def get_context_data(self, *, object_list: Any = None, **kwargs: dict) -> dict:
-        context = super().get_context_data(object_list=None, **kwargs)
-        course = self.get_object()
-        user = self.request.user
-        context['has_edit'] = course.responsible.filter(id=user.id).exists()
-        return context
-
 
 class CourseCreate(LoginRequiredMixin, CreateView):
     form_class = forms.CreateCourse
@@ -49,3 +43,26 @@ class CourseCreate(LoginRequiredMixin, CreateView):
         course = form.save()
         course.responsible.add(self.request.user.id)
         return HttpResponseRedirect(reverse('training_course:course_detail', kwargs={'pk': course.id}))
+
+
+class CourseUpdate(LoginRequiredMixin, UpdateView):
+    model = models.TrainingCourse
+    template_name = 'course/course_update.html'
+    form_class = forms.UpdateCourse
+    context_object_name = 'course'
+
+    def get(self, request: Request, *args: list, **kwargs: dict):
+        current_user = self.request.user
+
+        if models.TrainingCourse.objects.filter(id=kwargs['pk'], responsible__id=current_user.id).exists():
+            return super().get(request, *args, **kwargs)
+
+        raise Http404
+
+    # def form_valid(self, form):
+    #     course = form.save()
+    #     course.responsible.add(self.request.user.id)
+    #     return HttpResponseRedirect(reverse('training_course:course_detail', kwargs={'pk': course.id}))
+
+    def get_success_url(self) -> str:
+        return reverse('training_course:course_detail', kwargs={'pk': self.object.pk})
