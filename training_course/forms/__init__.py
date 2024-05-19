@@ -1,1 +1,1 @@
-from training_course.forms.course import *
+from training_course.forms.course import *  # noqa
