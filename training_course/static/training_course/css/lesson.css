@@ -11,3 +11,18 @@
   content: visible;
   color: #a9b1a2;
 }
+
+.button-add-new {
+  width: 330px;
+  background-color: #96a38c;
+  margin: 20px 0 40px 0;
+  border: 1px solid black;
+}
+
+.button-add-new:hover {
+  background-color: #83a867;
+}
+
+.add-task {
+  display: none;
+}

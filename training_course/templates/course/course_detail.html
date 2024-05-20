@@ -60,12 +60,12 @@
     <div class="lessons-header">
         <h2>Уроки</h2>
         {% if course|is_user_responsible_for_course:user.id %}
-        <a href="{% url 'training_course:course_create' %}">
+        <a href="{% url 'training_course:lesson_create' course.pk %}">
             <input type="submit" value="Создать"/>
         </a>
         {% endif %}
     </div>
-    {% if course|user_has_subscription:user.id %}
+    {% if course|user_has_subscription:user.id or course|is_user_responsible_for_course:user.id %}
     {% for lesson in course.lessons.all %}
     <a href="{% url 'training_course:lesson_detail' lesson.id %}">
         <h4 class="link-for-authorized">{{ forloop.counter }}. {{ lesson.name }}</h4>
