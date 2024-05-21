@@ -16,6 +16,7 @@ let task_place = document.querySelector('.add-task');
 
 task_input.addEventListener('click', function() {
     task_place.style.display = 'block';
+    task_input.style.display = 'none';
 }
 );
 

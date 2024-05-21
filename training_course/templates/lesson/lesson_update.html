@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% load static %}
+
+{% block content %}
+<form class="form-create" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="form-label">
+        <label for="{{ form.name.id_for_label }}">Введите название: </label>
+        {{ form.name }}
+    </div>
+    <div class="form-label">
+        <label for="{{ form.description.id_for_label }}">Введите описание: </label>
+        {{ form.description }}
+    </div>
+    <div class="form-label">
+        <label for="{{ form.category.id_for_label }}">Вставьте ссылку: </label>
+        {{ form.link }}
+    </div>
+    <div class="add-files add-lesson-files">
+        <label for="{{ form.files.id_for_label }}">Выберите файлы: </label>
+        {{ form.files }}
+    </div>
+    <input class="button-add-new" id="add-new-lesson-file" type="button" value="Прикрепить еще файл">
+
+    {% if lesson.task %}
+    <div>
+        <h2>ЗАДАНИЕ К УРОКУ</h2>
+        <div class="form-label">
+            <label for="{{ form.task_name.id_for_label }}">Название задачи: </label>
+            {{ form.task_name }}
+        </div>
+        <div class="form-label">
+            <label for="{{ form.task_description.id_for_label }}">Описание задачи: </label>
+            {{ form.task_description }}
+        </div>
+        <div class="add-files add-task-files">
+            <h4>Файлы:</h4>
+            {% for file in lesson.task.files.all %}
+            <p>{{ file.name }}</p>
+            {% endfor %}
+        </div>
+        <input class="button-add-new" id="add-new-task-file" type="button" value="Прикрепить еще файл">
+    </div>
+    {% else %}
+    <input class="button-add-new" id="add-new-task" type="button" value="Создать задание">
+    {% endif %}
+    <input type="submit" value="Создать урок"/>
+</form>
+<script src="{% static 'training_course/js/add_file_from_input.js' %}" defer></script>
+{% endblock %}

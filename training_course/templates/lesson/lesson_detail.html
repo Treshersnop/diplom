@@ -4,10 +4,12 @@
 
 {% block content %}
 <div class="course">
-    <div class="course-main-information">
+    <div class="lesson-main-information">
         <div class="lesson-main-information">
             <div class="name-course">
-                <h1>Курс: {{ lesson.course.name }}</h1>
+                <a href="{% url 'training_course:course_detail' lesson.course.id %}">
+                    <h1>Курс: {{ lesson.course.name }}</h1>
+                </a>
             </div>
             <div class="label-lesson">
                 <h4>Название:</h4>
@@ -33,14 +35,43 @@
                 </a>
                 {% endfor %}
             </div>
+
+            <div class="course-add-information">
+                {% if lesson.course|is_user_responsible_for_course:user.id %}
+                <a href="{% url 'training_course:lesson_update' lesson.id %}">
+                    <input type="button" class="follow button-for-authorized" value="Изменить"/>
+                </a>
+                {% endif %}
+            </div>
         </div>
     </div>
-    <div class="course-add-information">
-        {% if lesson.course|is_user_responsible_for_course:user.id %}
-        <a href="{% url 'training_course:lesson_update' lesson.id %}">
-            <input type="button" class="follow button-for-authorized" value="Изменить"/>
-        </a>
-        {% endif %}
+</div>
+
+{% if lesson.task %}
+<div class="course">
+    <div class="lesson-main-information">
+        <div class="lesson-main-information">
+            <div class="name-course">
+                <h1>Задание к уроку:</h1>
+            </div>
+            <div class="label-lesson">
+                <h4>Что делать:</h4>
+                <p>{{ lesson.task.name }}</p>
+            </div>
+            <div>
+                <h4>Описание к заданию:</h4>
+                <p class="label-lesson-other">{{ lesson.task.description }}</p>
+            </div>
+            <div>
+                <h4>Файлы к заданию:</h4>
+                {% for file in lesson.task.files.all %}
+                <a href="{{ file.get_absolute_file_url }}">
+                    <p class="lesson-files">{{ forloop.counter }}. {{ file.name }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}

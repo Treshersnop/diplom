@@ -123,8 +123,8 @@ class Subscription(models.Model):
 
 
 class Task(models.Model):
-    lesson = models.ForeignKey(
-        Lesson, verbose_name='К уроку', related_name='tasks', on_delete=models.CASCADE
+    lesson = models.OneToOneField(
+        Lesson, verbose_name='К уроку', related_name='task', on_delete=models.PROTECT
     )
     name = models.CharField('Название', max_length=255)
     description = models.TextField('Описание', blank=True)
