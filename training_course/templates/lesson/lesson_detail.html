@@ -70,8 +70,45 @@
                 </a>
                 {% endfor %}
             </div>
+            {% if not user_homework and not lesson.course|is_user_responsible_for_course:user.id %}
+            <input class="button-add-new" type="button" value="Прикрепить домашнее задание">
+            {% endif %}
         </div>
     </div>
 </div>
+{% if user_homework %}
+<div class="course">
+    <div class="lesson-main-information">
+        <div class="lesson-main-information">
+            <div class="name-course">
+                <h1>Домашнее задание:</h1>
+            </div>
+            <div>
+                <h4>Описание к д/з:</h4>
+                <p class="label-lesson-other">{{ user_homework.description }}</p>
+            </div>
+            <div class="label-lesson">
+                <h4>Проверил преподаватель:</h4>
+                <p>
+                    {% if user_homework.is_checked %}
+                    Да
+                    {% else %}
+                    Нет
+                    {% endif %}
+                </p>
+            </div>
+            <div>
+                <h4>Файлы к д/з:</h4>
+                {% for file in user_homework.files.all %}
+                <a href="{{ file.get_absolute_file_url }}">
+                    <p class="lesson-files">{{ forloop.counter }}. {{ file.name }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+{% endif %}
 {% endif %}
 {% endblock %}

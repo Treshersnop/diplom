@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.handlers.wsgi import WSGIRequest
@@ -13,6 +15,26 @@ class LessonDetail(LoginRequiredMixin, DetailView):
     model = models.Lesson
     template_name = 'lesson/lesson_detail.html'
     context_object_name = 'lesson'
+
+    def get_context_data(self, **kwargs: Any) -> dict:
+        context = super().get_context_data(**kwargs)
+
+        lesson = kwargs['object']
+
+        try:
+            task = lesson.task
+
+            current_user_id = self.request.user.id
+            if not models.TrainingCourse.objects.filter(
+                    lessons__id=lesson.id, responsible__id=current_user_id
+            ).exists():
+                context['user_homework'] = task.homeworks.filter(learner_id=current_user_id).first()
+                return context
+
+            context['homeworks'] = task.homeworks.order_by('is_checked')
+        except ObjectDoesNotExist:
+            pass
+        return context
 
     def get(self, request: WSGIRequest, *args: list, **kwargs: dict) -> HttpResponse | Http404:
         current_user = self.request.user
