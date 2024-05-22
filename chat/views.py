@@ -40,6 +40,16 @@ class RoomList(ListView):
         current_user = self.request.user
         return models.Room.objects.filter(participants__id=current_user.id)
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+
+        room_list = context['room_list']
+        current_user = self.request.user
+        for room in room_list:
+            setattr(room, 'member', room.participants.exclude(id=current_user.id).first)
+
+        return context
+
 
 class CreateMessage(LoginRequiredMixin, UpdateView):
     model = models.Message

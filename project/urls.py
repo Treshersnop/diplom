@@ -16,6 +16,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('chat.urls', namespace='chat')),
     path('', include('core.urls', namespace='core')),
     path('', include('training_course.urls', namespace='course')),
     path('backend/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

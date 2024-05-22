@@ -11,7 +11,7 @@ class Room(models.Model):
         verbose_name_plural = 'Чаты'
 
     def __str__(self) -> str:
-        return self.id
+        return str(self.id)
 
 
 class Message(models.Model):

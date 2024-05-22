@@ -1,0 +1,33 @@
+.room-detail {
+  width: 80%;
+  background-color: white;
+  margin: 1px 30px;
+  border: 1px solid #4d7131;
+  padding: 6px 2px;
+  display: flex;
+  align-items: center;
+}
+
+.rooms {
+  margin: 18px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.room-img-profile {
+  margin: 0 24px;
+  width: 75px;
+  height: 75px;
+  border-radius: 40px;
+}
+
+.room-name {
+  font-size: 30px;
+  padding: 10px 0;
+}
+
+.room-message {
+  font-size: 21px;
+  padding: 4px 0;
+}
