@@ -33,7 +33,7 @@ class LessonDetail(LoginRequiredMixin, DetailView):
 
             context['homeworks'] = task.homeworks.order_by('is_checked')
         except ObjectDoesNotExist:
-            pass
+            context['user_homework'] = None
         return context
 
     def get(self, request: WSGIRequest, *args: list, **kwargs: dict) -> HttpResponse | Http404:

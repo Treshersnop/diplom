@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 <form class="form-create" enctype="multipart/form-data" method="post">
     {% csrf_token %}
@@ -42,6 +44,20 @@
     </div>
     {% else %}
     <input class="button-add-new" id="add-new-task" type="button" value="Создать задание">
+    <div class="add-task">
+        <div class="form-label">
+            <label for="{{ form.task_name.id_for_label }}">Название задачи: </label>
+            {{ form.task_name }}
+        </div>
+        <div class="form-label">
+            <label for="{{ form.task_description.id_for_label }}">Описание задачи: </label>
+            {{ form.task_description }}
+        </div>
+        <div class="add-files add-task-files">
+            <label for="{{ form.files.id_for_label }}">Выберите файлы: </label>
+            {{ form.task_files }}
+        </div>
+    </div>
     {% endif %}
     <input type="submit" value="Создать урок"/>
 </form>

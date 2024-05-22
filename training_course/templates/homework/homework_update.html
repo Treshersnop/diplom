@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<form class="form-create" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="form-label">
+        <label for="{{ form.description.id_for_label }}">Введите описание: </label>
+        {{ form.description }}
+    </div>
+    <div class="add-files add-task-files">
+        <h4>Файлы:</h4>
+        {% for file in homework.files.all %}
+        <p>{{ file.name }}</p>
+        {% endfor %}
+    </div>
+    <input class="button-add-new" id="add-new-lesson-file" type="button" value="Прикрепить еще файл">
+    <input type="submit" value="Отправить домашнее задание"/>
+</form>
+<script src="{% static 'training_course/js/add_file_from_input.js' %}" defer></script>
+{% endblock %}

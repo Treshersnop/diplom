@@ -71,7 +71,9 @@
                 {% endfor %}
             </div>
             {% if not user_homework and not lesson.course|is_user_responsible_for_course:user.id %}
-            <input class="button-add-new" type="button" value="Прикрепить домашнее задание">
+            <a href="{% url 'training_course:homework_create' lesson.task.pk %}">
+                <input class="button-add-new" type="button" value="Прикрепить домашнее задание">
+            </a>
             {% endif %}
         </div>
     </div>
@@ -105,10 +107,12 @@
                 </a>
                 {% endfor %}
             </div>
+            <a href="{% url 'training_course:homework_update' user_homework.id %}">
+                <input class="button-add-new" type="button" value="Изменить">
+            </a>
         </div>
+        {% endif %}
     </div>
 </div>
-{% else %}
-{% endif %}
 {% endif %}
 {% endblock %}

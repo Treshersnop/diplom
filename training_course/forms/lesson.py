@@ -24,14 +24,6 @@ class MultipleFileField(forms.FileField):
         return result
 
 
-class CreateTask(forms.ModelForm):
-    files = MultipleFileField(required=False)
-
-    class Meta:
-        model = models.Task
-        fields = ('description', 'files', 'name')
-
-
 class CreateLesson(forms.ModelForm):
     files = MultipleFileField(required=False)
     task_name = forms.CharField(required=False)

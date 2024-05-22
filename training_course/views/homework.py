@@ -1,21 +1,65 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.urls import reverse
+from django.views.generic import CreateView, UpdateView
 
-from training_course import models
+from training_course import models, forms
 
 
-@login_required
-def create_homework(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
-    if request.method == 'POST':
-        lesson = models.Lesson.objects.get(id=pk)
-        homework = models.Homework.objects.create(
-            learner_id=request.user.id,
-            task=lesson.task,
-            description='123'
-        )
-        if files := request.files.getlist('files'):
+class HomeworkCreate(LoginRequiredMixin, CreateView):
+    form_class = forms.CreateHomework
+    template_name = 'homework/homework_create.html'
+
+    def get(self, request: WSGIRequest, *args: list, **kwargs: dict) -> HttpResponse | Http404:
+        current_user = self.request.user
+
+        if models.TrainingCourse.objects.filter(
+                lessons__task__id=kwargs['pk'],
+                subscriptions__user_id=current_user.id,
+        ).exists():
+            return super().get(request, *args, **kwargs)
+
+        raise Http404
+
+    def form_valid(self, form: forms) -> HttpResponseRedirect:
+        homework = form.save(commit=False)
+
+        user = self.request.user
+        homework.learner_id = user.id
+        task_id = self.kwargs['pk']
+        homework.task_id = task_id
+        homework.save()
+
+        if files := form.files.getlist('files'):
             for file in files:
                 homework.files.create(file=file, name=file.name)
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return HttpResponseRedirect(reverse('training_course:lesson_detail', kwargs={'pk': homework.task.lesson.id}))
+
+
+class HomeworkUpdate(LoginRequiredMixin, UpdateView):
+    model = models.Homework
+    template_name = 'homework/homework_update.html'
+    form_class = forms.UpdateHomework
+    context_object_name = 'homework'
+
+    def get(self, request: WSGIRequest, *args: list, **kwargs: dict) -> HttpResponse | Http404:
+        current_user = self.request.user
+
+        if models.Homework.objects.filter(learner__id=current_user.id).exists():
+            return super().get(request, *args, **kwargs)
+
+        raise Http404
+
+    def form_valid(self, form: forms) -> HttpResponseRedirect:
+        homework = form.save(commit=False)
+
+        if files := form.files.getlist('files'):
+            for file in files:
+                homework.files.create(file=file, name=file.name)
+
+        return HttpResponseRedirect(reverse('training_course:lesson_detail', kwargs={'pk': homework.task.lesson.id}))
+
+    def get_success_url(self) -> str:
+        return reverse('training_course:lesson_detail', kwargs={'pk': self.object.task.lesson.id})

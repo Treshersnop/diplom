@@ -17,5 +17,6 @@ urlpatterns = [
     path('course/<int:pk>/lesson/create/', views.LessonCreate.as_view(), name='lesson_create'),
     path('course/lesson/<int:pk>/update', views.LessonUpdate.as_view(), name='lesson_update'),
 
-    path('course/lesson/<int:pk>/homework/create', views.create_homework, name='create_homework'),
+    path('course/lesson/task/<int:pk>/homework/create', views.HomeworkCreate.as_view(), name='homework_create'),
+    path('course/lesson/task/homework/<int:pk>/update', views.HomeworkUpdate.as_view(), name='homework_update'),
 ]
