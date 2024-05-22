@@ -111,8 +111,46 @@
                 <input class="button-add-new" type="button" value="Изменить">
             </a>
         </div>
-        {% endif %}
     </div>
 </div>
+{% else %}
+<div class="course">
+    <div class="lesson-main-information">
+        {% for hw in homeworks %}
+        <div class="lesson-main-information">
+            <div class="name-course">
+                <h1>Домашнее задание от {{ hw.learner.profile.full_name }} </h1>
+            </div>
+            <div>
+                <h4>Описание к д/з:</h4>
+                <p class="label-lesson-other">{{ hw.description }}</p>
+            </div>
+            <div class="label-lesson">
+                <h4>Проверил преподаватель:</h4>
+                <p>
+                    {% if hw.is_checked %}
+                    Да
+                    {% else %}
+                    Нет
+                    {% endif %}
+                </p>
+            </div>
+            <div>
+                <h4>Файлы к д/з:</h4>
+                {% for file in hw.files.all %}
+                <a href="{{ file.get_absolute_file_url }}">
+                    <p class="lesson-files">{{ forloop.counter }}. {{ file.name }}</p>
+                </a>
+                {% endfor %}
+            </div>
+            <form action="{% url 'training_course:homework_check' hw.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="button-add-new" value="Проверено"/>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 {% endif %}
 {% endblock %}

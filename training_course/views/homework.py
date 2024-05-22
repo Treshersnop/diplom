@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseRedirect, HttpResponse, Http404
@@ -63,3 +64,13 @@ class HomeworkUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self) -> str:
         return reverse('training_course:lesson_detail', kwargs={'pk': self.object.task.lesson.id})
+
+
+@login_required
+def check_homework(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
+    if request.method == 'POST':
+        hw = models.Homework.objects.get(id=pk)
+        hw.is_checked = True
+        hw.save(update_fields=['is_checked'])
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
