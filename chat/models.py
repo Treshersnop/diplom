@@ -2,18 +2,16 @@ from django.db import models
 
 
 class Room(models.Model):
-    name = models.CharField('Название', max_length=255)
     participants = models.ManyToManyField(
         'core.User', verbose_name='Участники чата', related_name='rooms', blank=True
     )
-    is_group = models.BooleanField('Является групповой перепиской', default=True)
 
     class Meta:
         verbose_name = 'Чат'
         verbose_name_plural = 'Чаты'
 
     def __str__(self) -> str:
-        return self.name
+        return self.id
 
 
 class Message(models.Model):

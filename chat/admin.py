@@ -5,8 +5,7 @@ from chat import models
 
 @admin.register(models.Room)
 class Room(admin.ModelAdmin):
-    list_display = ('name', 'is_group')
-    search_fields = ('name',)
+    list_display = ('id',)
 
 
 @admin.register(models.Message)
