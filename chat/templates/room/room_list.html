@@ -9,10 +9,10 @@
                 src="{{ room.member.profile.get_avatar }}"
                 alt="Фото собеседника"
         />
-        <a href="{% url 'chat:room_detail' room.id %}">
+        <a href="{% url 'chat:room_detail' room.id %}" class="room-link">
             <div class="room-main-information">
                 <h3 class="room-name">{{ room.member.profile.full_name }}</h3>
-                <p class="room-message">{{ room.messages.last|truncatechars:100 }}</p>
+                <p class="room-message">{{ room.messages.last|default:'Нет сообщений'|truncatechars:100 }}</p>
             </div>
         </a>
     </div>

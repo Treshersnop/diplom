@@ -1,26 +1,32 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% block content %}
 
 <div class="chat-block">
-      <div class="scroll-block">
+    <div class="scroll-block">
         <div class="messages-block">
-          {% for message in messages %}
-          <div class="message">
-          {% if message.sender.id == user.id %}
-            <p class="message-user-text">{{ message.description }}</p>
+            {% for message in messages %}
+            {% if message.sender.id == user.id %}
+            <div class="message message-user">
+                <p class="message-user-text">{{ message.description }}</p>
+            </div>
             {% else %}
-            <p class="message-member-text">{{ message.description }}</p>
-          {% endif %}
-          </div>
-          {% endfor %}
+            <div class="message message-member">
+                <p class="message-member-text">{{ message.description }}</p>
+            </div>
+            <label class="member-fullname">{{ message.sender.profile.full_name }}</label>
+            {% endif %}
+            {% endfor %}
         </div>
-      </div>
-        <form class="block-send-message" action="{% url 'chat:message_create' room.id %}" method="post">
-          {% csrf_token %}
-          <input type="text" class="send-message-input" name="description" id="id_description"/>
-          <input type="submit" class="send-message-button" value="Отправить" />
-        </form>
     </div>
+    <form class="block-send-message" action="{% url 'chat:message_create' room.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" class="send-message-input" name="description" id="id_description"/>
+        <input type="submit" class="send-message-button" value="Отправить"/>
+    </form>
+</div>
+
+<script src="{% static 'chat/js/scroll.js' %}" defer></script>
 
 {% endblock %}

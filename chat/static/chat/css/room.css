@@ -8,11 +8,21 @@
   align-items: center;
 }
 
+.room-main-information {
+  cursor: pointer;
+}
+
 .rooms {
   margin: 18px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.room-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .room-img-profile {
@@ -32,10 +42,9 @@
   padding: 4px 0;
 }
 
-
 .scroll-block {
   overflow: auto;
-  height: 575px;
+  height: 545px;
 }
 
 .chat-block {
@@ -63,11 +72,30 @@
   background-color: #bdc9c0;
 }
 
+.member-fullname {
+  font-size: 21px;
+  padding: 6px;
+  margin-left: 100px;
+  color: #768877;
+}
+
 .message-user-text {
   float: right;
   text-align: right;
 }
 
+.message-user {
+  margin-left: 200px;
+}
+
+.message-member {
+  margin-right: 200px;
+}
+
+.message-user-text {
+  float: right;
+  text-align: right;
+}
 
 .block-send-message {
   display: flex;
@@ -80,11 +108,12 @@
   padding: 15px;
   display: block;
   margin-left: 100px;
+  margin-top: 38px;
 }
 
 .send-message-button {
   padding: 15px;
-  margin: 0 40px;
+  margin: 40px 40px 0 40px;
   font-size: 25px;
   background-color: #b4c697;
 }
