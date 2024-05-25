@@ -10,7 +10,7 @@ from chat import forms, models
 
 
 @login_required
-def create_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect | Http404:
+def create_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
     if request.method == 'POST':
         user = request.user.id
 
@@ -21,6 +21,28 @@ def create_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect | Http404
         room = models.Room.objects.create()
         room.participants.set([user, participant])
 
+        return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk': room.id}))
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def get_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
+    if request.method == 'GET':
+        current_user = request.user
+        participant = core.models.User.objects.filter(id=pk).first()
+        if not participant:
+            raise Http404
+
+        if room := models.Room.objects.filter(
+                participants__id=current_user.id
+        ).filter(
+            participants__id=participant.id
+        ).first():
+            return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk': room.id}))
+
+        room = models.Room.objects.create()
+        room.participants.set([current_user, participant])
         return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk': room.id}))
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

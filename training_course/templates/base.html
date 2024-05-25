@@ -7,8 +7,8 @@
     <link href="{% static 'training_course/css/course_crud.css' %}" rel="stylesheet"/>
     <link href="{% static 'training_course/css/styles.css' %}" rel="stylesheet"/>
     <link href="{% static 'training_course/css/lesson.css' %}" rel="stylesheet"/>
-    <link href="{% static 'core/css/profile.css' %}" rel="stylesheet" />
-    <link href="{% static 'chat/css/room.css' %}" rel="stylesheet" />
+    <link href="{% static 'core/css/profile.css' %}" rel="stylesheet"/>
+    <link href="{% static 'chat/css/room.css' %}" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
@@ -24,25 +24,28 @@
     <div class="authorization">
         {% if user.is_authenticated %}
         <form method="post">
-        {% csrf_token %}
-        <a href="{% url 'core:profile' pk=user.profile.pk %}">
-          <img
-            class="go_profile_img"
-            src={{ user.profile.get_avatar }}
-            alt="Войти в профиль"
-            title="Войти в профиль"
-        /></a>
+            {% csrf_token %}
+            <a href="{% url 'core:profile' pk=user.profile.pk %}">
+                <img
+                        class="go_profile_img"
+                        src={{ user.profile.get_avatar }}
+                        alt="Войти в профиль"
+                        title="Войти в профиль"
+                /></a>
         </form>
+        <a class="nav-btn" href="{% url 'chat:room_list' %}">
+            <input type="button" class="come" value="Мои чаты"/>
+        </a>
         {% endif %}
-    <form method="post" action="{% url 'core:logout' %}">
-        {% csrf_token %}
-        <input type="submit" class="come" value="Выйти" />
-    </form>
+        <form method="post" action="{% url 'core:logout' %}">
+            {% csrf_token %}
+            <input type="submit" class="come" value="Выйти"/>
+        </form>
     </div>
     {% else %}
     <form method="post" action="{% url 'core:login' %}">
         {% csrf_token %}
-        <input type="submit" class="come" value="Войти" />
+        <input type="submit" class="come" value="Войти"/>
     </form>
     {% endif %}
 </header>
@@ -50,10 +53,10 @@
     {% if user.username and not user.profile %}
     <div class="no-profile">
         <h3>
-          У вас нет профиля! Создайте его, чтобы просматривать курсы и уроки.
-          <a href="{% url 'core:register_profile' %}">Создать</a>
+            У вас нет профиля! Создайте его, чтобы просматривать курсы и уроки.
+            <a href="{% url 'core:register_profile' %}">Создать</a>
         </h3>
-      </div>
+    </div>
     {% endif %}
     {% block content %}
     {% endblock %}

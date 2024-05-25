@@ -18,9 +18,14 @@
                 <h4>Уровень сложности:</h4>
                 <p>{{ course.get_level_display }}</p>
             </div>
-            <div class="label-course">
+            <div>
                 <h4>Преподаватели:</h4>
-                <p>Фронт-енд</p>
+                {% for teacher in course.responsible.all %}
+                <p>{{ teacher.profile.full_name }}</p>
+                <a href="{% url 'chat:room_get' teacher.id %}">
+                    <p>Написать</p>
+                </a>
+                {% endfor %}
             </div>
         </div>
         <div class="img-content">
@@ -73,7 +78,7 @@
     {% endfor %}
     {% else %}
     {% for lesson in course.lessons.all %}
-        <h4 class="lesson-for-not-authorized" title="Авторизуйтесь">{{ forloop.counter }}. {{ lesson.name }}</h4>
+    <h4 class="lesson-for-not-authorized" title="Авторизуйтесь">{{ forloop.counter }}. {{ lesson.name }}</h4>
     {% endfor %}
     {% endif %}
 </div>
