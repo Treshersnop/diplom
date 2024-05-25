@@ -72,7 +72,7 @@
             </div>
             {% if not user_homework and not lesson.course|is_user_responsible_for_course:user.id %}
             <a href="{% url 'training_course:homework_create' lesson.task.pk %}">
-                <input class="button-add-new" type="button" value="Прикрепить домашнее задание">
+                <input class="user-homework-btn button-for-authorized" type="button" value="Прикрепить домашнее задание">
             </a>
             {% endif %}
         </div>
@@ -109,13 +109,13 @@
             </div>
             {% if not user_homework.is_checked %}
             <a href="{% url 'training_course:homework_update' user_homework.id %}">
-                <input class="update-homework button-for-authorized" type="button" value="Изменить">
+                <input class="user-homework-btn button-for-authorized" type="button" value="Изменить">
             </a>
             {% endif %}
         </div>
     </div>
 </div>
-{% else %}
+{% elif homeworks %}
 <div class="course">
     <div class="lesson-main-information">
         {% for hw in homeworks %}
