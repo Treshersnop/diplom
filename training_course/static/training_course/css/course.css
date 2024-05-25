@@ -131,3 +131,8 @@
 .filter__btn:hover {
   background: #658949;
 }
+
+.teacher-link-room {
+  display: flex;
+  margin: 0 20px 0 90px;
+}

@@ -21,10 +21,12 @@
             <div>
                 <h4>Преподаватели:</h4>
                 {% for teacher in course.responsible.all %}
-                <p>{{ teacher.profile.full_name }}</p>
-                <a href="{% url 'chat:room_get' teacher.id %}">
-                    <p>Написать</p>
-                </a>
+                <div class="teacher-link-room">
+                    <p>{{ teacher.profile.full_name }}</p>
+                    <a href="{% url 'chat:room_get' teacher.id %}">
+                        <p>Написать</p>
+                    </a>
+                </div>
                 {% endfor %}
             </div>
         </div>
