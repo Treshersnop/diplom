@@ -10,6 +10,3 @@ class Message(forms.ModelForm):
     class Meta:
         model = models.Message
         fields = ('description', 'files',)
-        widgets = {
-            'description': forms.Textarea(attrs={'id': 'comment-field', 'rows': 4}),
-        }

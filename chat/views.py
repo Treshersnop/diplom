@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
-from django.views.generic import UpdateView, DetailView, ListView
+from django.views.generic import UpdateView, DetailView, ListView, CreateView
 
 import core.models
 from chat import forms, models
@@ -31,6 +31,14 @@ class RoomDetail(LoginRequiredMixin, DetailView):
     template_name = 'room/room_detail.html'
     context_object_name = 'room'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        room = context['room']
+        context['messages'] = room.messages.order_by('-dc')
+
+        return context
+
 
 class RoomList(ListView):
     template_name = 'room/room_list.html'
@@ -46,12 +54,12 @@ class RoomList(ListView):
         room_list = context['room_list']
         current_user = self.request.user
         for room in room_list:
-            setattr(room, 'member', room.participants.exclude(id=current_user.id).first)
+            setattr(room, 'member', room.participants.exclude(id=current_user.id).first())
 
         return context
 
 
-class CreateMessage(LoginRequiredMixin, UpdateView):
+class CreateMessage(LoginRequiredMixin, CreateView):
     model = models.Message
     form_class = forms.Message
 

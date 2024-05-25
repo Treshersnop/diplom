@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+
+<div class="chat-block">
+      <div class="scroll-block">
+        <div class="messages-block">
+          {% for message in messages %}
+          <div class="message">
+          {% if message.sender.id == user.id %}
+            <p class="message-user">{{ message.description }}</p>
+            {% else %}
+            <p class="message-member">{{ message.description }}</p>
+          {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+        <form class="block-send-message" action="{% url 'chat:message_create' room.id %}" method="post">
+          {% csrf_token %}
+          <input type="text" class="send-message-input" name="description" id="id_description"/>
+          <input type="submit" class="send-message-button" value="Отправить" />
+        </form>
+    </div>
+
+{% endblock %}

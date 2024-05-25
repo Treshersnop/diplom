@@ -31,3 +31,55 @@
   font-size: 21px;
   padding: 4px 0;
 }
+
+
+.scroll-block {
+  overflow: auto;
+  height: 575px;
+}
+
+.chat-block {
+  width: 1300px;
+  height: 675px;
+  background-color: white;
+  margin: 50px;
+  border: 1px solid #4d7131;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.messages-block {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 40px;
+}
+
+.message {
+  font-size: 30px;
+  padding: 0 80px 20px 80px;
+}
+
+.message-user {
+  float: right;
+}
+
+
+.block-send-message {
+  display: flex;
+}
+
+.send-message-input {
+  border: 1px solid #4d7131;
+  width: 75%;
+  font-size: 27px;
+  padding: 15px;
+  display: block;
+  margin-left: 100px;
+}
+
+.send-message-button {
+  padding: 15px;
+  margin: 0 40px;
+  font-size: 25px;
+  background-color: #b4c697;
+}
