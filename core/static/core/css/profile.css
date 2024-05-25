@@ -14,6 +14,7 @@
 .profile-container {
   display: flex;
   flex-direction: row;
+  max-width: 500px;
 }
 
 .profile_img, .course_img {
