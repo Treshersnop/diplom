@@ -117,3 +117,8 @@
   font-size: 25px;
   background-color: #b4c697;
 }
+
+.chat-member {
+  font-size: 32px;
+  margin: 23px 0 -23px 350px;
+}

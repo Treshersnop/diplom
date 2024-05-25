@@ -42,6 +42,9 @@ class RoomDetail(LoginRequiredMixin, DetailView):
         room = context['room']
         context['messages'] = room.messages.order_by('-dc')
 
+        current_user = self.request.user
+        setattr(room, 'name', room.participants.exclude(id=current_user.id).first())
+
         return context
 
 
