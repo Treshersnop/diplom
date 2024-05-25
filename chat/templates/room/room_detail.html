@@ -8,9 +8,9 @@
           {% for message in messages %}
           <div class="message">
           {% if message.sender.id == user.id %}
-            <p class="message-user">{{ message.description }}</p>
+            <p class="message-user-text">{{ message.description }}</p>
             {% else %}
-            <p class="message-member">{{ message.description }}</p>
+            <p class="message-member-text">{{ message.description }}</p>
           {% endif %}
           </div>
           {% endfor %}

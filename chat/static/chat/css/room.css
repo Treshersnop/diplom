@@ -56,11 +56,16 @@
 
 .message {
   font-size: 30px;
-  padding: 0 80px 20px 80px;
+  margin: 0 80px 10px 80px;
+  padding: 10px;
+  outline: 1px solid #9eb18f;
+  border-radius: 10px;
+  background-color: #bdc9c0;
 }
 
-.message-user {
+.message-user-text {
   float: right;
+  text-align: right;
 }
 
 
