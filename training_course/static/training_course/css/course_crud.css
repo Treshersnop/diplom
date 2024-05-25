@@ -70,7 +70,7 @@
   display: block;
 }
 
-.follow {
+.follow, .checked-homework, .update-homework {
   border: 2px solid #133215;
   padding: 7px;
   margin: 20px 0 20px 100px;

@@ -107,9 +107,11 @@
                 </a>
                 {% endfor %}
             </div>
+            {% if not user_homework.is_checked %}
             <a href="{% url 'training_course:homework_update' user_homework.id %}">
-                <input class="button-add-new" type="button" value="Изменить">
+                <input class="update-homework button-for-authorized" type="button" value="Изменить">
             </a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -143,12 +145,14 @@
                 </a>
                 {% endfor %}
             </div>
+            {% if not hw.is_checked %}
             <form action="{% url 'training_course:homework_check' hw.id %}" method="POST">
                 {% csrf_token %}
-                <input type="submit" class="button-add-new" value="Проверено"/>
+                <input type="submit" class="checked-homework button-for-authorized" value="Проверено"/>
             </form>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endif %}
