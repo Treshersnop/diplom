@@ -8,11 +8,13 @@
           method="POST">
         {% csrf_token %}
         <div class="profile-container">
-            <img class="profile_img" src={{ profile.get_avatar }} alt="Фото профиля"/>
-            <label for="{{ form.avatar.id_for_label }}">
-                Прикрепить фото профиля
+            <div>
+                <img class="profile_img" src={{ profile.get_avatar }} alt="Фото профиля"/>
+                <label for="{{ form.avatar.id_for_label }}">
+                    <br>Прикрепить фото профиля
+                </label>
                 {{ form.avatar }}
-            </label>
+            </div>
         </div>
         <div class="profile_main_information">
             <div class="label-profile">
