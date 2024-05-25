@@ -10,23 +10,6 @@ from chat import forms, models
 
 
 @login_required
-def create_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
-    if request.method == 'POST':
-        user = request.user.id
-
-        participant = core.models.User.objects.filter(id=pk).first()
-        if not participant:
-            raise Http404
-
-        room = models.Room.objects.create()
-        room.participants.set([user, participant])
-
-        return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk': room.id}))
-
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-@login_required
 def get_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
     if request.method == 'GET':
         current_user = request.user
@@ -86,6 +69,8 @@ class CreateMessage(LoginRequiredMixin, CreateView):
     form_class = forms.Message
 
     def form_valid(self, form: forms) -> HttpResponseRedirect:
+        if not form.cleaned_data['description']:
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
         message = form.save(commit=False)
 
         user = self.request.user
