@@ -25,7 +25,7 @@ def get_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
             return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk': room.id}))
 
         room = models.Room.objects.create()
-        room.participants.set([current_user, participant])
+        room.participants.set([current_user.id, participant.id])
         return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk': room.id}))
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
