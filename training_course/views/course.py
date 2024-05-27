@@ -40,7 +40,7 @@ class CourseCreate(LoginRequiredMixin, CreateView):
     form_class = forms.CreateCourse
     template_name = 'course/course_create.html'
 
-    def get(self, request: Request, *args: list, **kwargs: dict) -> HttpResponse | Http404:
+    def get(self, request: Request, *args: Any, **kwargs: Any) -> HttpResponse | Http404:
         current_user = self.request.user
 
         if current_user.is_staff:
@@ -85,15 +85,19 @@ class CourseStatistic(DetailView):
 
         raise Http404
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> dict:
         context = super().get_context_data(**kwargs)
         course = self.object
         subscription_statistic = course.subscriptions.filter(dc__lte=now(), dc__gte=now() - timedelta(days=7)).count()
 
         lesson_statistic = course.lessons.annotate(
             count_homeworks=Count('task__homeworks', distinct=True),
-            count_not_checked_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=False), distinct=True),
-            count_checked_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=True), distinct=True),
+            count_not_checked_homeworks=Count(
+                'task__homeworks', filter=Q(task__homeworks__is_checked=False), distinct=True
+            ),
+            count_checked_homeworks=Count(
+                'task__homeworks', filter=Q(task__homeworks__is_checked=True), distinct=True
+            ),
             not_done_homeworks=Count('course__subscriptions', distinct=True) - F('count_homeworks'),
         )
 

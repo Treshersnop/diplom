@@ -1,9 +1,12 @@
+from typing import Any
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.db.models import QuerySet
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
-from django.views.generic import UpdateView, DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView
 
 import core.models
 from chat import forms, models
@@ -36,7 +39,7 @@ class RoomDetail(LoginRequiredMixin, DetailView):
     template_name = 'room/room_detail.html'
     context_object_name = 'room'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> dict:
         context = super().get_context_data(**kwargs)
 
         room = context['room']
@@ -52,11 +55,11 @@ class RoomList(ListView):
     template_name = 'room/room_list.html'
     context_object_name = 'room_list'
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         current_user = self.request.user
         return models.Room.objects.filter(participants__id=current_user.id)
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs: Any) -> dict:
         context = super().get_context_data(object_list=None, **kwargs)
 
         room_list = context['room_list']
