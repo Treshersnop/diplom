@@ -2,6 +2,11 @@
 
 {% block content %}
 
+<div class="name-course" style="margin: 30px 30px 10px 150px;">
+                <a href="{% url 'training_course:course_detail' course.id %}">
+                    <h1>Курс: {{ course.name }}</h1>
+                </a>
+            </div>
 <div class="criteria">
     <div class="criterion">
         <p>Количество просмотров курса: </p>
