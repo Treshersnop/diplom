@@ -1,7 +1,8 @@
+from datetime import timedelta
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet, Q
+from django.db.models import QuerySet, Q, Count
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
 from django.utils.timezone import now
@@ -39,6 +40,14 @@ class CourseCreate(LoginRequiredMixin, CreateView):
     form_class = forms.CreateCourse
     template_name = 'course/course_create.html'
 
+    def get(self, request: Request, *args: list, **kwargs: dict) -> HttpResponse | Http404:
+        current_user = self.request.user
+
+        if current_user.is_staff:
+            return super().get(request, *args, **kwargs)
+
+        raise Http404
+
     def form_valid(self, form: forms) -> HttpResponseRedirect:
         course = form.save()
         course.responsible.add(self.request.user.id)
@@ -61,3 +70,33 @@ class CourseUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self) -> str:
         return reverse('training_course:course_detail', kwargs={'pk': self.object.pk})
+
+
+class CourseStatistic(DetailView):
+    model = models.TrainingCourse
+    template_name = 'course/course_statistic.html'
+    context_object_name = 'course'
+
+    def get(self, request: Request, *args: list, **kwargs: dict) -> HttpResponse | Http404:
+        current_user = self.request.user
+
+        if models.TrainingCourse.objects.filter(id=kwargs['pk'], responsible__id=current_user.id).exists():
+            return super().get(request, *args, **kwargs)
+
+        raise Http404
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.object
+        subscription_statistic = course.subscriptions.filter(dc__lte=now(), dc__gte=now() - timedelta(days=7)).count()
+
+        lesson_statistic = course.lessons.aggregate(
+            count_homeworks=Count('task__homeworks'),
+            count_dont_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=False)),
+            count_do_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=True)),
+        )
+
+        context['lessons'] = lesson_statistic
+        context['subscription_statistic'] = subscription_statistic
+
+        return context

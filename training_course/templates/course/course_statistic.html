@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="criteria">
+    <div class="criterion">
+        <p>Количество просмотров курса: </p>
+        <p>{{ course.number_of_clicks }}</p>
+    </div>
+    <div class="criterion">
+        <p>Количество подписчиков: </p>
+        <p>{{ course.subscriptions.count }}</p>
+    </div>
+    <div class="criterion">
+        <p>Количество подписавшихся на курс за неделю: </p>
+        <p>{{ subscription_statistic }}</p>
+    </div>
+    <div class="criterion">
+        <p>Количество домашних заданий: </p>
+        <p>2</p>
+    </div>
+    <div class="criterion">
+        <p>Количество просмотренных домашних заданий: </p>
+        <p>2</p>
+    </div>
+    <div class="criterion">
+        <p>Количество непросмотренных домашних заданий: </p>
+        <p>2</p>
+    </div>
+    <div class="criterion">
+        <p>Количество невыполненных домашних заданий: </p>
+        <p>2</p>
+    </div>
+</div>
+
+{% endblock %}

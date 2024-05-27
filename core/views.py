@@ -40,7 +40,7 @@ class Register(FormView):
         return super().form_valid(form)
 
 
-class CreateProfile(LoginRequiredMixin, FormView):
+class ProfileCreate(LoginRequiredMixin, FormView):
     form_class = forms.CreateProfile
     template_name = 'user/create_profile_auth.html'
     success_url = reverse_lazy('training_course:course_list')
