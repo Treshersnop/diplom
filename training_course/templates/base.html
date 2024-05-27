@@ -22,17 +22,14 @@
     <h1>LessonPark</h1>
     {% if user.username %}
     <div class="authorization">
-        {% if user.is_authenticated %}
-        <form method="post">
-            {% csrf_token %}
+        {% if user.is_authenticated and user.profile %}
             <a href="{% url 'core:profile' pk=user.profile.pk %}">
                 <img
                         class="go_profile_img"
-                        src={{ user.profile.get_avatar }}
+                        src="{{ user.profile.get_avatar }}"
                         alt="Войти в профиль"
                         title="Войти в профиль"
                 /></a>
-        </form>
         <a class="nav-btn" href="{% url 'chat:room_list' %}">
             <input type="button" class="come" value="Мои чаты"/>
         </a>
