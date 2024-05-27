@@ -23,9 +23,11 @@
                 {% for teacher in course.responsible.all %}
                 <div class="teacher-link-room">
                     <p>{{ teacher.profile.full_name }}</p>
+                    {% if user.id != teacher.id and course|user_has_subscription:user.id %}
                     <a href="{% url 'chat:room_get' teacher.id %}">
                         <p>Написать</p>
                     </a>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
