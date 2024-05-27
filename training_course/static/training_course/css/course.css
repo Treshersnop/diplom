@@ -73,6 +73,12 @@
   }
 }
 
+.course-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .filters {
   display: flex;
   justify-content: space-between;
@@ -116,7 +122,6 @@
   }
 }
 
-
 .filter__btn {
   background-color: transparent;
   border: 2px solid #133215;
@@ -139,7 +144,6 @@
 
 .criteria {
   margin: 40px 0 0 100px;
-
 }
 
 .criterion {
@@ -147,4 +151,15 @@
   display: flex;
   padding: 10px;
   white-space: pre;
+}
+
+.lesson-head {
+  font-size: 35px;
+  margin: 20px 150px 0 10px;
+  padding: 7px 40px;
+  background-color: #92b775;
+}
+
+.lesson-criterion {
+  margin-left: 40px;
 }

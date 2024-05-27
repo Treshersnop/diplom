@@ -2,7 +2,7 @@ from datetime import timedelta
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet, Q, Count
+from django.db.models import QuerySet, Q, Count, F
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
 from django.utils.timezone import now
@@ -90,10 +90,11 @@ class CourseStatistic(DetailView):
         course = self.object
         subscription_statistic = course.subscriptions.filter(dc__lte=now(), dc__gte=now() - timedelta(days=7)).count()
 
-        lesson_statistic = course.lessons.aggregate(
-            count_homeworks=Count('task__homeworks'),
-            count_dont_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=False)),
-            count_do_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=True)),
+        lesson_statistic = course.lessons.annotate(
+            count_homeworks=Count('task__homeworks', distinct=True),
+            count_not_checked_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=False), distinct=True),
+            count_checked_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=True), distinct=True),
+            not_done_homeworks=Count('course__subscriptions', distinct=True) - F('count_homeworks'),
         )
 
         context['lessons'] = lesson_statistic

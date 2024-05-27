@@ -44,6 +44,9 @@
         <a href="{% url 'training_course:course_update' course.id %}">
             <input type="button" class="follow button-for-authorized" value="Изменить"/>
         </a>
+        <a href="{% url 'training_course:course_statistic' course.id %}">
+            <input type="button" class="follow button-for-authorized" value="Посмотреть статистику"/>
+        </a>
         {% else %}
         {% if course|user_has_subscription:user.id %}
         <form action="{% url 'training_course:delete_subscription' course.id %}" method="POST">

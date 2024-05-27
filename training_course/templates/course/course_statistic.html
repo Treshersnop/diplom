@@ -15,21 +15,26 @@
         <p>Количество подписавшихся на курс за неделю: </p>
         <p>{{ subscription_statistic }}</p>
     </div>
-    <div class="criterion">
-        <p>Количество домашних заданий: </p>
-        <p>2</p>
-    </div>
-    <div class="criterion">
-        <p>Количество просмотренных домашних заданий: </p>
-        <p>2</p>
-    </div>
-    <div class="criterion">
-        <p>Количество непросмотренных домашних заданий: </p>
-        <p>2</p>
-    </div>
-    <div class="criterion">
-        <p>Количество невыполненных домашних заданий: </p>
-        <p>2</p>
+    <div class="lesson-statistic">
+        {% for lesson in lessons %}
+        <h2 class="lesson-head">{{ forloop.counter }}. {{ lesson.name }}</h2>
+        <div class="criterion lesson-criterion">
+            <p>Количество сданных домашних работ:   </p>
+            <p>{{ lesson.count_homeworks }}</p>
+        </div>
+        <div class="criterion lesson-criterion">
+            <p>Количество просмотренных домашних работ: </p>
+            <p>{{ lesson.count_checked_homeworks }}</p>
+        </div>
+        <div class="criterion lesson-criterion">
+            <p>Количество непросмотренных домашних работ:   </p>
+            <p>{{ lesson.count_not_checked_homeworks }}</p>
+        </div>
+        <div class="criterion lesson-criterion">
+            <p>Количество невыполненных домашних работ: </p>
+            <p>{{ lesson.not_done_homeworks }}</p>
+        </div>
+        {% endfor %}
     </div>
 </div>
 
