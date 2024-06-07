@@ -3,6 +3,7 @@
 {% block content %}
 <div class="rooms">
     {% for room in room_list %}
+    {% if room.last_message %}
     <div class="room-detail">
         <img
                 class="room-img-profile"
@@ -10,12 +11,14 @@
                 alt="Фото собеседника"
         />
         <a href="{% url 'chat:room_detail' room.id %}" class="room-link">
+
             <div class="room-main-information">
                 <h3 class="room-name">{{ room.member.profile.full_name }}</h3>
-                <p class="room-message">{{ room.messages.last|default:'Нет сообщений'|truncatechars:100 }}</p>
+                <p class="room-message">{{ room.last_message.text_message|truncatechars:100 }}</p>
             </div>
         </a>
     </div>
+    {% endif %}
     {% endfor %}
 </div>
 

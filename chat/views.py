@@ -3,7 +3,8 @@ from typing import Any
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Subquery, OuterRef, F
+from django.db.models.functions import JSONObject
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, CreateView
@@ -57,7 +58,13 @@ class RoomList(ListView):
 
     def get_queryset(self) -> QuerySet:
         current_user = self.request.user
-        return models.Room.objects.filter(participants__id=current_user.id)
+        last_message = models.Message.objects.filter(room=OuterRef('pk')).order_by('-dc').values(
+            json=JSONObject(last_dc='dc', text_message='description')
+        )
+
+        return models.Room.objects.filter(
+            participants__id=current_user.id
+        ).annotate(last_message=Subquery(last_message[:1])).order_by('-last_message')
 
     def get_context_data(self, *, object_list=None, **kwargs: Any) -> dict:
         context = super().get_context_data(object_list=None, **kwargs)
