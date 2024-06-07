@@ -82,6 +82,7 @@
 .message-user-text {
   float: right;
   text-align: right;
+  word-break: break-all;
 }
 
 .message-user {
