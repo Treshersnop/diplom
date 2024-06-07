@@ -79,9 +79,14 @@
     </div>
     {% if course|user_has_subscription:user.id or course|is_user_responsible_for_course:user.id %}
     {% for lesson in course.lessons.all %}
-    <a href="{% url 'training_course:lesson_detail' lesson.id %}">
-        <h4 class="link-for-authorized">{{ forloop.counter }}. {{ lesson.name }}</h4>
-    </a>
+    <div class="lesson-link">
+        <a class="look-not-link" href="{% url 'training_course:lesson_detail' lesson.id %}">
+            <h4 class="link-for-authorized">{{ forloop.counter }}. {{ lesson.name|truncatechars:120 }}</h4>
+        </a>
+        {% if not lesson|does_user_do_homework:user.id %}
+        <h4 class="warning-homework">Не выполнено домашнее задание!</h4>
+        {% endif %}
+    </div>
     {% endfor %}
     {% else %}
     {% for lesson in course.lessons.all %}

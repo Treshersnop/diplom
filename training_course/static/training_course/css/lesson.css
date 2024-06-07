@@ -26,3 +26,16 @@
 .add-task {
   display: none;
 }
+
+.lesson-link {
+  display: flex;
+}
+
+.warning-homework {
+  margin: 20px 40px 20px 20px;
+  padding: 0 10px 0 0px;
+  text-align: center;
+  background-color: #ffdfd4;
+  outline: 1px solid #133215;
+  border-radius: 8px;
+}
