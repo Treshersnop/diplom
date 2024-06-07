@@ -19,7 +19,9 @@
 </head>
 <body>
 <header>
+    <a class="look-not-link" href="{% url 'training_course:course_list' %}">
     <h1>LessonPark</h1>
+        </a>
     {% if user.username %}
     <div class="authorization">
         {% if user.is_authenticated and user.profile %}

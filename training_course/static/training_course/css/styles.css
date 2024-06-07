@@ -77,3 +77,12 @@ h1 {
     color: #4d7131;
   }
 }
+
+.look-not-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.look-not-link:hover {
+  color: white;
+}
