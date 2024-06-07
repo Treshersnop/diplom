@@ -11,8 +11,8 @@ urlpatterns = [
     path('course/<int:pk>/update', views.CourseUpdate.as_view(), name='course_update'),
     path('course/<int:pk>/statistic', views.CourseStatistic.as_view(), name='course_statistic'),
 
-    path('subscription/<int:pk>/create/', views.create_subscription, name='create_subscription'),
-    path('subscription/<int:pk>/delete/', views.delete_subscription, name='delete_subscription'),
+    path('subscription/<int:pk>/create/', views.SubscriptionCreate.as_view(), name='create_subscription'),
+    path('subscription/<int:pk>/delete/', views.SubscriptionDelete.as_view(), name='delete_subscription'),
 
     path('course/lesson/<int:pk>/', views.LessonDetail.as_view(), name='lesson_detail'),
     path('course/<int:pk>/lesson/create/', views.LessonCreate.as_view(), name='lesson_create'),
