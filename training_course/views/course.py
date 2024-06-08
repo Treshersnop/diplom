@@ -35,7 +35,7 @@ class CourseDetail(DetailView):
     template_name = 'course/course_detail.html'
     context_object_name = 'course'
 
-    def get(self, request: Request, *args: Any, **kwargs: Any):
+    def get(self, request: Request, *args: Any, **kwargs: Any) -> HttpResponse:
         response = super().get(request, *args, **kwargs)
         # увеличивает количество просмотров на 1 если пользователь не является его создателем
         current_user = self.request.user

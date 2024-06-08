@@ -2,6 +2,7 @@ from typing import Any
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from training_course import models
 
@@ -11,11 +12,11 @@ class MultipleFileInput(forms.ClearableFileInput):
 
 
 class MultipleFileField(forms.FileField):
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         kwargs.setdefault('widget', MultipleFileInput())
         super().__init__(*args, **kwargs)
 
-    def clean(self, data, initial=None):
+    def clean(self, data: list[InMemoryUploadedFile], initial=None) -> list[InMemoryUploadedFile]:
         single_file_clean = super().clean
         if isinstance(data, (list, tuple)):
             result = [single_file_clean(d, initial) for d in data]

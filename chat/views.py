@@ -3,7 +3,7 @@ from typing import Any
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import QuerySet, Subquery, OuterRef, F
+from django.db.models import QuerySet, Subquery, OuterRef
 from django.db.models.functions import JSONObject
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
@@ -66,7 +66,7 @@ class RoomList(ListView):
             participants__id=current_user.id
         ).annotate(last_message=Subquery(last_message[:1])).order_by('-last_message')
 
-    def get_context_data(self, *, object_list=None, **kwargs: Any) -> dict:
+    def get_context_data(self, *, object_list: QuerySet | None = None, **kwargs: Any) -> dict:
         context = super().get_context_data(object_list=None, **kwargs)
 
         room_list = context['room_list']

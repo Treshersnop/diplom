@@ -22,7 +22,7 @@ class Login(LoginView):
     def get_success_url(self) -> str:
         return self.request.GET.get('next') or reverse_lazy('training_course:course_list')
 
-    def form_invalid(self, form: forms):
+    def form_invalid(self, form: forms) -> HttpResponse:
         messages.error(self.request, 'Неверный логин или пароль.')
         return self.render_to_response(self.get_context_data(form=form))
 
