@@ -29,13 +29,23 @@
 
 .lesson-link {
   display: flex;
+  justify-content: space-between;
 }
 
 .warning-homework {
   margin: 20px 40px 20px 20px;
-  padding: 0 10px 0 0px;
+  padding: 0 10px 0 0;
   text-align: center;
   background-color: #ffdfd4;
   outline: 1px solid #133215;
   border-radius: 8px;
+}
+
+.warning-all-homework {
+  text-indent: 0;
+  margin: 10px 40px 10px 20px;
+  padding: 10px 15px;
+  text-align: center;
+  background-color: #ff9e81;
+  border-radius: 25px;
 }

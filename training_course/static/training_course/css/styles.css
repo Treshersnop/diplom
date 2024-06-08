@@ -15,6 +15,7 @@ body {
 }
 
 header {
+  min-width: 1650px;
   background-color: #92b775;
   display: flex;
   justify-content: space-between;
