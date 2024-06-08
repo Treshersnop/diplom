@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 
-<h2 class="chat-member">{{ room.name.profile.full_name }}</h2>
+<a href="{% url 'core:profile' room.name.profile.user.username %}"><h2 class="chat-member">{{ room.name.profile.full_name }}</h2></a>
 <div class="chat-block">
     <div class="scroll-block">
         <div class="messages-block">
@@ -12,11 +12,12 @@
             <div class="message message-user">
                 <p class="message-user-text">{{ message.description }}</p>
             </div>
+            <label class="user-message-dc">{{ message.dc }}</label>
             {% else %}
             <div class="message message-member">
                 <p class="message-member-text">{{ message.description }}</p>
             </div>
-            <label class="member-fullname">{{ message.sender.profile.full_name }}</label>
+            <label class="member-fullname">{{ message.sender.profile.only_names }} {{ message.dc }}</label>
             {% endif %}
             {% endfor %}
         </div>

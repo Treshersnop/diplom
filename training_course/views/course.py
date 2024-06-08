@@ -100,7 +100,7 @@ class CourseStatistic(DetailView):
         course = self.object
         subscription_statistic = course.subscriptions.filter(dc__lte=now(), dc__gte=now() - timedelta(days=7)).count()
 
-        lesson_statistic = course.lessons.annotate(
+        lesson_statistic = course.lessons.filter(task__isnull=False).annotate(
             count_homeworks=Count('task__homeworks', distinct=True),
             count_not_checked_homeworks=Count(
                 'task__homeworks', filter=Q(task__homeworks__is_checked=False), distinct=True

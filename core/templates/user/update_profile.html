@@ -3,7 +3,6 @@
 {% block content %}
 <div>
     <form class="profile"
-          action="{% url 'core:profile_update' profile.pk %}"
           enctype="multipart/form-data"
           method="POST">
         {% csrf_token %}

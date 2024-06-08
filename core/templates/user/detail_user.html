@@ -24,42 +24,56 @@
         </div>
         <div class="label-profile">
             <h4>Почта:</h4>
-            <p>{{ user.email|default:"не указана" }}</p>
+            <p>{{ profile.user.email|default:"не указана" }}</p>
         </div>
-        <a href="{% url 'core:profile_update' user.profile.pk %}">
+        {% if user.username == profile.user.username %}
+        <a href="{% url 'core:profile_update' user.username %}">
             <input type="submit" value="Изменить"/>
         </a>
+        {% else %}
+        <a href="{% url 'chat:room_get' profile.user.id %}">
+            <input type="submit" value="Написать сообщение"/>
+        </a>
+        {% endif %}
     </div>
 </div>
 {% if user.is_staff %}
 <div class="my_courses content-courses">
     <div class="courses-header">
+        {% if user.username == profile.user.username %}
         <h2>Мои курсы</h2>
         <a href="{% url 'training_course:course_create' %}">
             <input type="submit" value="Создать"/>
         </a>
+        {% else %}
+        <h2>Курсы от {{ profile.only_names }}</h2>
+        {% endif %}
     </div>
     {% for course in user_responsible_for_courses %}
     <div class="course-link">
         <a href="{% url 'training_course:course_detail' course.id %}">
             <h4 class="link-for-authorized">{{ forloop.counter }}. {{ course.name|truncatechars:45 }}</h4>
         </a>
+        {% if user.username == profile.user.username %}
         <a href="{% url 'training_course:course_statistic' course.id %}">
-            <h4>Посмотреть статистику</h4>
+            <h4 class="link-for-authorized">Посмотреть статистику</h4>
         </a>
+        {% endif %}
     </div>
     {% endfor %}
 </div>
 
 {% endif %}
 <div class="my_subscriptions content-courses">
-    <h2>Мои подписки</h2>
+    <h2>Подписки</h2>
     {% for subscription in subscriptions %}
     <div class="lesson-link">
         <a href="{% url 'training_course:course_detail' subscription.course__id %}">
             <h4 class="link-for-authorized">{{ forloop.counter }}. {{ subscription.course__name|truncatechars:45 }}</h4>
         </a>
+        {% if user.username == profile.user.username %}
         <h4 class="warning-all-homework">Д/з: {{ subscription.count_done_hw }}/{{ subscription.count_all_hw }}</h4>
+        {% endif %}
     </div>
     {% endfor %}
 </div>

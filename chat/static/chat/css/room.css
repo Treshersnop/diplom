@@ -72,30 +72,36 @@
   background-color: #bdc9c0;
 }
 
-.member-fullname {
-  font-size: 21px;
-  padding: 6px;
-  margin-left: 100px;
-  color: #768877;
+.message-user {
+  margin-left: 200px;
 }
 
 .message-user-text {
-  float: right;
   text-align: right;
   word-break: break-all;
 }
 
-.message-user {
-  margin-left: 200px;
+.user-message-dc {
+  text-align: right;
+  font-size: 21px;
+  padding: 6px;
+  margin-right: 100px;
+  color: #768877;
 }
 
 .message-member {
   margin-right: 200px;
 }
 
-.message-user-text {
-  float: right;
-  text-align: right;
+.message-member-text {
+  word-break: break-all;
+}
+
+.member-fullname {
+  font-size: 21px;
+  padding: 6px;
+  margin-left: 100px;
+  color: #768877;
 }
 
 .block-send-message {

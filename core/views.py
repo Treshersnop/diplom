@@ -60,6 +60,8 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     model = models.UserProfile
     template_name = 'user/detail_user.html'
     context_object_name = 'profile'
+    slug_field = 'user__username'
+    slug_url_kwarg = 'user_slug'
 
     def get_context_data(self, **kwargs: Any) -> dict:
         context = super().get_context_data(**kwargs)
@@ -86,20 +88,14 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
 
         return context
 
-    def get(self, request: Request, *args: list, **kwargs: dict) -> HttpResponse | Http404:
-        current_user = self.request.user
-
-        if current_user.profile.id == kwargs.get('pk', None):
-            return super().get(request, *args, **kwargs)
-
-        raise Http404
-
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
     model = models.UserProfile
     template_name = 'user/update_profile.html'
     form_class = forms.UpdateProfile
     context_object_name = 'profile'
+    slug_field = 'user__username'
+    slug_url_kwarg = 'user_slug'
 
     def form_valid(self, form: forms) -> HttpResponseRedirect:
         user = self.request.user
@@ -110,10 +106,10 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 
     def get(self, request: Request, *args: list, **kwargs: dict) -> HttpResponse | Http404:
         current_user = self.request.user
-        if current_user.profile.id == kwargs.get('pk', None):
+        if current_user.username == kwargs.get('user_slug', None):
             return super().get(request, *args, **kwargs)
 
         raise Http404
 
     def get_success_url(self) -> str:
-        return reverse_lazy('core:profile', kwargs={'pk': self.object.pk})
+        return reverse_lazy('core:profile', kwargs={'user_slug': self.request.user.username})
