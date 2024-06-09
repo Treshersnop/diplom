@@ -27,10 +27,22 @@ class LessonFile(admin.ModelAdmin):
     list_display = ('name', 'lesson',)
 
 
-@admin.register(models.Task)
-class Task(admin.ModelAdmin):
-    list_display = ('name', 'lesson')
-    search_fields = ('name',)
+@admin.register(models.Test)
+class Test(admin.ModelAdmin):
+    list_display = ('lesson',)
+    search_fields = ('lesson__name',)
+
+
+@admin.register(models.Question)
+class Question(admin.ModelAdmin):
+    list_display = ('name', 'test',)
+    search_fields = ('name', 'test__lesson__name',)
+
+
+@admin.register(models.Answer)
+class Answer(admin.ModelAdmin):
+    list_display = ('name', 'question', 'is_right')
+    search_fields = ('name', 'question__name', 'question__test__lesson__name')
 
 
 @admin.register(models.TaskFile)

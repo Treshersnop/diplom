@@ -122,6 +122,42 @@ class Subscription(models.Model):
         return self.course.name
 
 
+class Test(models.Model):
+    lesson = models.OneToOneField(Lesson, verbose_name='К тесту', related_name='test', on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = 'Тест'
+        verbose_name_plural = 'Тесты'
+
+    def __str__(self) -> str:
+        return f'Тест к уроку {self.lesson.name}'
+
+
+class Question(models.Model):
+    test = models.ForeignKey(Test, verbose_name='К тесту', related_name='questions', on_delete=models.CASCADE)
+    name = models.TextField('Вопрос')
+
+    class Meta:
+        verbose_name = 'Вопрос'
+        verbose_name_plural = 'Вопросы'
+
+    def __str__(self) -> str:
+        return f'Вопрос к тесту {self.test.lesson.name}'
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, verbose_name='К вопросу', related_name='answers', on_delete=models.CASCADE)
+    name = models.TextField('Ответ')
+    is_right = models.BooleanField('Верный', default=False)
+
+    class Meta:
+        verbose_name = 'Ответ'
+        verbose_name_plural = 'Ответы'
+
+    def __str__(self) -> str:
+        return f'Ответ к вопросу {self.question.name}'
+
+
 class Task(models.Model):
     lesson = models.OneToOneField(
         Lesson, verbose_name='К уроку', related_name='task', on_delete=models.PROTECT
