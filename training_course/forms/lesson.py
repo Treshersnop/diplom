@@ -7,29 +7,11 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from training_course import models
 
 
-class MultipleFileInput(forms.ClearableFileInput):
-    allow_multiple_selected = True
-
-
-class MultipleFileField(forms.FileField):
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        kwargs.setdefault('widget', MultipleFileInput())
-        super().__init__(*args, **kwargs)
-
-    def clean(self, data: list[InMemoryUploadedFile], initial=None) -> list[InMemoryUploadedFile]:
-        single_file_clean = super().clean
-        if isinstance(data, (list, tuple)):
-            result = [single_file_clean(d, initial) for d in data]
-        else:
-            result = [single_file_clean(data, initial)]
-        return result
-
-
 class CreateLesson(forms.ModelForm):
-    files = MultipleFileField(required=False)
+    files = forms.FileField(required=False)
     task_name = forms.CharField(required=False)
     task_description = forms.CharField(widget=forms.Textarea, required=False)
-    task_files = MultipleFileField(required=False)
+    task_files = forms.FileField(required=False)
 
     class Meta:
         model = models.Lesson
@@ -37,10 +19,10 @@ class CreateLesson(forms.ModelForm):
 
 
 class UpdateLesson(forms.ModelForm):
-    files = MultipleFileField(required=False)
+    files = forms.FileField(required=False)
     task_name = forms.CharField(required=False)
     task_description = forms.CharField(widget=forms.Textarea, required=False)
-    task_files = MultipleFileField(required=False)
+    task_files = forms.FileField(required=False)
 
     class Meta:
         model = models.Lesson

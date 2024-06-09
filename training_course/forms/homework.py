@@ -1,11 +1,10 @@
 from django import forms
 
 from training_course import models
-from training_course.forms.lesson import MultipleFileField
 
 
 class CreateHomework(forms.ModelForm):
-    files = MultipleFileField(required=False)
+    files = forms.FileField(required=False)
 
     class Meta:
         model = models.Homework
@@ -13,7 +12,7 @@ class CreateHomework(forms.ModelForm):
 
 
 class UpdateHomework(forms.ModelForm):
-    files = MultipleFileField(required=False)
+    files = forms.FileField(required=False)
 
     class Meta:
         model = models.Homework

@@ -1,11 +1,10 @@
 from django import forms
 
 from chat import models
-from training_course.forms import MultipleFileField
 
 
 class Message(forms.ModelForm):
-    files = MultipleFileField(required=False)
+    files = forms.FileField(required=False)
 
     class Meta:
         model = models.Message
