@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
 from django.views.generic import DetailView, CreateView, UpdateView
 
-from training_course import models, forms
+from training_course import datatools, models, forms
 
 
 class LessonDetail(LoginRequiredMixin, DetailView):
@@ -82,6 +82,9 @@ class LessonCreate(LoginRequiredMixin, CreateView):
             if task_files := form.files.getlist('task_files'):
                 for file in task_files:
                     task.files.create(file=file, name=file.name)
+
+        if test_file := form.files.getlist('test_file'):
+            datatools.test.create_test(test_file[0], lesson)
 
         return HttpResponseRedirect(reverse('training_course:lesson_detail', kwargs={'pk': lesson.id}))
 

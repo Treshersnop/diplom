@@ -123,14 +123,14 @@ class Subscription(models.Model):
 
 
 class Test(models.Model):
-    lesson = models.OneToOneField(Lesson, verbose_name='К тесту', related_name='test', on_delete=models.PROTECT)
+    lesson = models.OneToOneField(Lesson, verbose_name='К уроку', related_name='test', on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'Тест'
         verbose_name_plural = 'Тесты'
 
     def __str__(self) -> str:
-        return f'Тест к уроку {self.lesson.name}'
+        return f'Тест к уроку {self.lesson.name}'[:-80]
 
 
 class Question(models.Model):
@@ -142,7 +142,7 @@ class Question(models.Model):
         verbose_name_plural = 'Вопросы'
 
     def __str__(self) -> str:
-        return f'Вопрос к тесту {self.test.lesson.name}'
+        return f'Вопрос к тесту {self.test.lesson.name}'[:-80]
 
 
 class Answer(models.Model):

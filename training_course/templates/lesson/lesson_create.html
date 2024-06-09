@@ -34,11 +34,20 @@
             {{ form.task_description }}
         </div>
         <div class="add-files add-task-files">
-            <label for="{{ form.files.id_for_label }}">Выберите файлы: </label>
+            <label for="{{ form.task_files.id_for_label }}">Выберите файлы: </label>
             {{ form.task_files }}
         </div>
     <input class="button-add-new" id="add-new-task-file" type="button" value="Прикрепить еще файл">
     </div>
+
+    <input class="button-add-new" id="add-new-test" type="button" value="Прикрепить тест">
+    <div class="add-test">
+        <div class="add-files add-task-files">
+            <label for="{{ form.test_file.id_for_label }}">Прикрепите файл теста (в формате docx или xlsx): </label>
+            <input id="id_test_file" type="file" name="test_file" accept=".docx, .xlsx">
+        </div>
+    </div>
+
     <input type="submit" value="Создать урок"/>
 </form>
 <script src="{% static 'training_course/js/add_file_from_input.js' %}" defer></script>
