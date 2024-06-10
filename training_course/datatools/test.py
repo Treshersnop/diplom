@@ -30,8 +30,8 @@ def parse_docx_test(
     answers = []
     for par in pars:
         string_data = par.text
-        # если строка содержит заголовок "Вопрос", то будет считаться вопросом
-        if string_data.startswith('Вопрос'):
+        # если строка содержит заголовок "вопрос", то будет считаться вопросом
+        if string_data.lower().startswith('вопрос'):
             question = models.Question(test=test, name=string_data.split('.', maxsplit=1)[-1])
             questions.append(question)
         # В другом случае это будет ответом.

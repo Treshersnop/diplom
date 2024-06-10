@@ -42,7 +42,8 @@
 
     <input class="button-add-new" id="add-new-test" type="button" value="Прикрепить тест">
     <div class="add-test">
-        <div class="add-files add-task-files">
+        <a href="{% static 'test/test_example.docx' %}"><p>Шаблон для docx-файла</p></a>
+        <div class="add-files">
             <label for="{{ form.test_file.id_for_label }}">Прикрепите файл теста (в формате docx или xlsx): </label>
             <input id="id_test_file" type="file" name="test_file" accept=".docx, .xlsx">
         </div>

@@ -27,16 +27,30 @@ class LessonFile(admin.ModelAdmin):
     list_display = ('name', 'lesson',)
 
 
+class QuestionInline(admin.TabularInline):
+    model = models.Question
+    extra = 0
+    fields = ('name',)
+
+
 @admin.register(models.Test)
 class Test(admin.ModelAdmin):
     list_display = ('lesson',)
     search_fields = ('lesson__name',)
+    inlines = (QuestionInline,)
+
+
+class AnswerInline(admin.TabularInline):
+    model = models.Answer
+    extra = 0
+    fields = ('name', 'is_right')
 
 
 @admin.register(models.Question)
 class Question(admin.ModelAdmin):
     list_display = ('name', 'test',)
     search_fields = ('name', 'test__lesson__name',)
+    inlines = (AnswerInline,)
 
 
 @admin.register(models.Answer)

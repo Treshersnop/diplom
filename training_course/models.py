@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 
 from training_course import consts
@@ -156,6 +157,47 @@ class Answer(models.Model):
 
     def __str__(self) -> str:
         return f'Ответ к вопросу {self.question.name}'
+
+
+class QuestionAnswer(models.Model):
+    question = models.ForeignKey(
+        Question,
+        verbose_name='Вопрос',
+        related_name='answer_questionnaires',
+        on_delete=models.CASCADE
+    )
+    answers = models.ManyToManyField(Answer, verbose_name='Ответы', related_name='question_questionnaires')
+    questionnaire = models.ForeignKey(
+        'Questionnaire',
+        verbose_name='К опроснику',
+        related_name='question_answers',
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        verbose_name = 'Вопрос-ответ'
+        verbose_name_plural = 'Вопросы-ответы'
+
+    def __str__(self) -> str:
+        return self.id
+
+
+class Questionnaire(models.Model):
+    questions = models.ManyToManyField(Question, through=QuestionAnswer)
+    user = models.ForeignKey(
+        'core.User',
+        verbose_name='Прошедший',
+        related_name='questionnaires',
+        on_delete=models.CASCADE
+    )
+    result = models.PositiveSmallIntegerField('Результат (в %)', validators=[MaxValueValidator(100)], default=0)
+
+    class Meta:
+        verbose_name = 'Опросник'
+        verbose_name_plural = 'Опросники'
+
+    def __str__(self) -> str:
+        return f'{self.user} {self.questions.first().test}'
 
 
 class Task(models.Model):

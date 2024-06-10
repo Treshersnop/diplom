@@ -32,3 +32,12 @@ task_file_input.addEventListener('click', function () {
     );
 }
 );
+
+let test_input = document.querySelector('#add-new-test');
+let test_place = document.querySelector('.add-test');
+
+test_input.addEventListener('click', function() {
+    test_place.style.display = 'block';
+    test_input.style.display = 'none';
+}
+);
