@@ -2,15 +2,15 @@ from datetime import timedelta
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import QuerySet, Q, Count, F
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.db.models import Count, F, Q, QuerySet
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.timezone import now
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from requests import Request
 
-from training_course import models, filters, forms
+from training_course import filters, forms, models
 
 
 class CourseList(ListView):
@@ -106,9 +106,7 @@ class CourseStatistic(DetailView):
             count_not_checked_homeworks=Count(
                 'task__homeworks', filter=Q(task__homeworks__is_checked=False), distinct=True
             ),
-            count_checked_homeworks=Count(
-                'task__homeworks', filter=Q(task__homeworks__is_checked=True), distinct=True
-            ),
+            count_checked_homeworks=Count('task__homeworks', filter=Q(task__homeworks__is_checked=True), distinct=True),
             not_done_homeworks=Count('course__subscriptions', distinct=True) - F('count_homeworks'),
         )
 

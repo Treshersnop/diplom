@@ -24,7 +24,10 @@ class Lesson(admin.ModelAdmin):
 
 @admin.register(models.LessonFile)
 class LessonFile(admin.ModelAdmin):
-    list_display = ('name', 'lesson',)
+    list_display = (
+        'name',
+        'lesson',
+    )
 
 
 class QuestionInline(admin.TabularInline):
@@ -48,8 +51,14 @@ class AnswerInline(admin.TabularInline):
 
 @admin.register(models.Question)
 class Question(admin.ModelAdmin):
-    list_display = ('name', 'test',)
-    search_fields = ('name', 'test__lesson__name',)
+    list_display = (
+        'name',
+        'test',
+    )
+    search_fields = (
+        'name',
+        'test__lesson__name',
+    )
     inlines = (AnswerInline,)
 
 
@@ -61,7 +70,10 @@ class Answer(admin.ModelAdmin):
 
 @admin.register(models.TaskFile)
 class TaskFile(admin.ModelAdmin):
-    list_display = ('name', 'task',)
+    list_display = (
+        'name',
+        'task',
+    )
 
 
 @admin.register(models.Homework)
@@ -72,7 +84,10 @@ class Homework(admin.ModelAdmin):
 
 @admin.register(models.HomeworkFile)
 class HomeworkFile(admin.ModelAdmin):
-    list_display = ('name', 'homework',)
+    list_display = (
+        'name',
+        'homework',
+    )
 
 
 @admin.register(models.Subscription)

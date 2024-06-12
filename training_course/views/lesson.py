@@ -4,13 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import View
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
-from django.views.generic.edit import BaseDeleteView
+from django.views.generic import CreateView, DetailView, UpdateView
 
-from training_course import datatools, models, forms
+from training_course import datatools, forms, models
 
 
 class LessonDetail(LoginRequiredMixin, DetailView):
@@ -28,7 +27,7 @@ class LessonDetail(LoginRequiredMixin, DetailView):
 
             current_user_id = self.request.user.id
             if not models.TrainingCourse.objects.filter(
-                    lessons__id=lesson.id, responsible__id=current_user_id
+                lessons__id=lesson.id, responsible__id=current_user_id
             ).exists():
                 context['user_homework'] = task.homeworks.filter(learner_id=current_user_id).first()
                 return context
@@ -42,8 +41,8 @@ class LessonDetail(LoginRequiredMixin, DetailView):
         current_user = self.request.user
 
         if models.TrainingCourse.objects.filter(
-                Q(lessons__id=kwargs['pk']) &
-                (Q(responsible__id=current_user.id) | Q(subscriptions__user__id=current_user.id))
+            Q(lessons__id=kwargs['pk'])
+            & (Q(responsible__id=current_user.id) | Q(subscriptions__user__id=current_user.id))
         ).exists():
             return super().get(request, *args, **kwargs)
 
@@ -57,10 +56,7 @@ class LessonCreate(LoginRequiredMixin, CreateView):
     def get(self, request: WSGIRequest, *args: list, **kwargs: dict) -> HttpResponse | Http404:
         current_user = self.request.user
 
-        if models.TrainingCourse.objects.filter(
-                id=kwargs['pk'],
-                responsible__id=current_user.id
-        ).exists():
+        if models.TrainingCourse.objects.filter(id=kwargs['pk'], responsible__id=current_user.id).exists():
             return super().get(request, *args, **kwargs)
 
         raise Http404
@@ -100,10 +96,7 @@ class LessonUpdate(LoginRequiredMixin, UpdateView):
     def get(self, request: WSGIRequest, *args: list, **kwargs: dict) -> HttpResponse | Http404:
         current_user = self.request.user
 
-        if models.TrainingCourse.objects.filter(
-                lessons__id=kwargs['pk'],
-                responsible__id=current_user.id
-        ).exists():
+        if models.TrainingCourse.objects.filter(lessons__id=kwargs['pk'], responsible__id=current_user.id).exists():
             return super().get(request, *args, **kwargs)
 
         raise Http404

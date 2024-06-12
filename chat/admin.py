@@ -10,9 +10,15 @@ class Room(admin.ModelAdmin):
 
 @admin.register(models.Message)
 class Message(admin.ModelAdmin):
-    list_display = ('description', 'room',)
+    list_display = (
+        'description',
+        'room',
+    )
 
 
 @admin.register(models.MessageFile)
 class MessageFile(admin.ModelAdmin):
-    list_display = ('name', 'message',)
+    list_display = (
+        'name',
+        'message',
+    )

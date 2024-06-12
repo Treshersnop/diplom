@@ -38,10 +38,8 @@ class TrainingCourse(models.Model):
         'core.User', verbose_name='Ответственные', related_name='responsible_for_courses', blank=True
     )
 
-    from_data = models.DateField('Начало курса', help_text='С какого числа начинается курс',
-                                 null=True, blank=True)
-    to_data = models.DateField('Окончание курса', help_text='Какого числа заканчивается курс',
-                               null=True, blank=True)
+    from_data = models.DateField('Начало курса', help_text='С какого числа начинается курс', null=True, blank=True)
+    to_data = models.DateField('Окончание курса', help_text='Какого числа заканчивается курс', null=True, blank=True)
 
     level = models.CharField(
         'Уровень сложности', max_length=255, choices=consts.LEVEL_CHOICES, default=consts.LEVEL_FOR_BEGINNERS
@@ -161,17 +159,11 @@ class Answer(models.Model):
 
 class QuestionAnswer(models.Model):
     question = models.ForeignKey(
-        Question,
-        verbose_name='Вопрос',
-        related_name='answer_questionnaires',
-        on_delete=models.CASCADE
+        Question, verbose_name='Вопрос', related_name='answer_questionnaires', on_delete=models.CASCADE
     )
     answers = models.ManyToManyField(Answer, verbose_name='Ответы', related_name='question_questionnaires')
     questionnaire = models.ForeignKey(
-        'Questionnaire',
-        verbose_name='К опроснику',
-        related_name='question_answers',
-        on_delete=models.CASCADE
+        'Questionnaire', verbose_name='К опроснику', related_name='question_answers', on_delete=models.CASCADE
     )
 
     class Meta:
@@ -185,10 +177,7 @@ class QuestionAnswer(models.Model):
 class Questionnaire(models.Model):
     questions = models.ManyToManyField(Question, through=QuestionAnswer)
     user = models.ForeignKey(
-        'core.User',
-        verbose_name='Прошедший',
-        related_name='questionnaires',
-        on_delete=models.CASCADE
+        'core.User', verbose_name='Прошедший', related_name='questionnaires', on_delete=models.CASCADE
     )
     result = models.PositiveSmallIntegerField('Результат (в %)', validators=[MaxValueValidator(100)], default=0)
 
@@ -201,9 +190,7 @@ class Questionnaire(models.Model):
 
 
 class Task(models.Model):
-    lesson = models.OneToOneField(
-        Lesson, verbose_name='К уроку', related_name='task', on_delete=models.CASCADE
-    )
+    lesson = models.OneToOneField(Lesson, verbose_name='К уроку', related_name='task', on_delete=models.CASCADE)
     name = models.CharField('Название', max_length=255)
     description = models.TextField('Описание', blank=True)
 
@@ -235,9 +222,7 @@ class Homework(models.Model):
     learner = models.ForeignKey(
         'core.User', verbose_name='Сдавший ученик', related_name='homeworks', on_delete=models.CASCADE
     )
-    task = models.ForeignKey(
-        Task, verbose_name='К задаче', related_name='homeworks', on_delete=models.CASCADE
-    )
+    task = models.ForeignKey(Task, verbose_name='К задаче', related_name='homeworks', on_delete=models.CASCADE)
     description = models.TextField('Описание', blank=True)
     is_checked = models.BooleanField('Проверено преподавателем', default=False)
 
@@ -251,9 +236,7 @@ class Homework(models.Model):
 
 class HomeworkFile(models.Model):
     name = models.CharField('Название', max_length=255)
-    homework = models.ForeignKey(
-        Homework, verbose_name='К д/з', related_name='files', on_delete=models.CASCADE
-    )
+    homework = models.ForeignKey(Homework, verbose_name='К д/з', related_name='files', on_delete=models.CASCADE)
     file = models.FileField('Файл', upload_to='homework_media')
 
     class Meta:

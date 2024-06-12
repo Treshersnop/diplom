@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView
 
-from training_course import models, forms
+from training_course import forms, models
 
 
 class HomeworkCreate(LoginRequiredMixin, CreateView):
@@ -16,8 +16,8 @@ class HomeworkCreate(LoginRequiredMixin, CreateView):
         current_user = self.request.user
 
         if models.TrainingCourse.objects.filter(
-                lessons__task__id=kwargs['pk'],
-                subscriptions__user_id=current_user.id,
+            lessons__task__id=kwargs['pk'],
+            subscriptions__user_id=current_user.id,
         ).exists():
             return super().get(request, *args, **kwargs)
 

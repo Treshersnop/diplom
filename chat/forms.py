@@ -8,4 +8,7 @@ class Message(forms.ModelForm):
 
     class Meta:
         model = models.Message
-        fields = ('description', 'files',)
+        fields = (
+            'description',
+            'files',
+        )

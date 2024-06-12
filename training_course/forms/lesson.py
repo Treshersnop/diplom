@@ -15,7 +15,7 @@ class CreateLesson(forms.ModelForm):
     test_file = forms.FileField(
         required=False,
         validators=[FileExtensionValidator(allowed_extensions=['xlsx', 'docx', 'xls'])],
-        error_messages={'invalid': 'Выберите верный формат!'}
+        error_messages={'invalid': 'Выберите верный формат!'},
     )
 
     class Meta:
@@ -31,7 +31,7 @@ class UpdateLesson(forms.ModelForm):
     test_file = forms.FileField(
         required=False,
         validators=[FileExtensionValidator(allowed_extensions=['xlsx', 'docx'])],
-        error_messages={'invalid': 'Выберите верный формат!'}
+        error_messages={'invalid': 'Выберите верный формат!'},
     )
 
     class Meta:

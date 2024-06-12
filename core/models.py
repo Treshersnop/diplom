@@ -26,6 +26,9 @@ class UserProfile(models.Model):
         verbose_name = 'Профиль пользователя'
         verbose_name_plural = 'Профили пользователей'
 
+    def __str__(self) -> str:
+        return self.full_name
+
     @property
     def full_name(self) -> str:
         return ' '.join(filter(bool, [self.first_name, self.last_name, self.patronymic]))
@@ -38,6 +41,3 @@ class UserProfile(models.Model):
         if self.avatar:
             return self.avatar.url
         return '/static/core/img/no_image.png'
-
-    def __str__(self) -> str:
-        return self.full_name

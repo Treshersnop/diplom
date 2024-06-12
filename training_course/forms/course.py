@@ -6,10 +6,27 @@ from training_course import models
 class CreateCourse(forms.ModelForm):
     class Meta:
         model = models.TrainingCourse
-        exclude = ('is_active', 'number_of_clicks')
+        fields = (
+            'category',
+            'description',
+            'from_data',
+            'image',
+            'level',
+            'name',
+            'responsible',
+            'to_data',
+        )
 
 
 class UpdateCourse(forms.ModelForm):
     class Meta:
         model = models.TrainingCourse
-        exclude = ('is_active', 'number_of_clicks', 'responsible')
+        fields = (
+            'category',
+            'description',
+            'from_data',
+            'image',
+            'level',
+            'name',
+            'to_data',
+        )

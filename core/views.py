@@ -2,17 +2,18 @@ from typing import Any
 from urllib.request import Request
 
 from django.contrib import messages
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.db.models import Count, Q
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, DetailView, UpdateView
+from django.views.generic import DetailView, FormView, UpdateView
 
-from core import forms, models
 import training_course.models
+from core import forms, models
 
 
 class Login(LoginView):
@@ -68,22 +69,21 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
 
         current_user = self.request.user
 
-        context['user_responsible_for_courses'] = (
-            training_course.models.TrainingCourse.objects.filter(responsible=current_user).values('id', 'name')
-        )
+        context['user_responsible_for_courses'] = training_course.models.TrainingCourse.objects.filter(
+            responsible=current_user
+        ).values('id', 'name')
         # выводит название курсов и количество невыполненных заданий в курсе
         context['subscriptions'] = (
-            training_course.models.Subscription.objects.filter(
-                user=current_user.id, is_blocked=False
-            ).annotate(
+            training_course.models.Subscription.objects.filter(user=current_user.id, is_blocked=False)
+            .annotate(
                 count_all_hw=Count('course__lessons__task', distinct=True),
                 count_done_hw=Count(
                     'course__lessons__task__homeworks',
                     filter=Q(course__lessons__task__homeworks__learner=current_user),
-                    distinct=True
-                )
-            ).
-            values('course__id', 'course__name', 'count_all_hw', 'count_done_hw')
+                    distinct=True,
+                ),
+            )
+            .values('course__id', 'course__name', 'count_all_hw', 'count_done_hw')
         )
 
         return context

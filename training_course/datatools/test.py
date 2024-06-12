@@ -8,7 +8,7 @@ from docx import Document
 from training_course import models
 
 
-def create_test(test_file: InMemoryUploadedFile, lesson: models.Lesson):
+def create_test(test_file: InMemoryUploadedFile, lesson: models.Lesson) -> None:
     test = models.Test.objects.create(lesson=lesson)
     # try:
     #     questions, answers = parse_docx_test(test_file, test) if test_file.name.endswith('docx') else (
@@ -19,18 +19,15 @@ def create_test(test_file: InMemoryUploadedFile, lesson: models.Lesson):
     #     models.Answer.objects.bulk_create(answers)
     # except:
     #     print(5)
-    questions, answers = parse_docx_test(test_file, test) if test_file.name.endswith('docx') else (
-        parse_excel_test(test_file, test)
+    questions, answers = (
+        parse_docx_test(test_file, test) if test_file.name.endswith('docx') else (parse_excel_test(test_file, test))
     )
 
     models.Question.objects.bulk_create(questions)
     models.Answer.objects.bulk_create(answers)
 
 
-def parse_docx_test(
-        test_file: InMemoryUploadedFile,
-        test: models.Test
-) -> (list[models.Question], list[models.Answer]):
+def parse_docx_test(test_file: InMemoryUploadedFile, test: models.Test) -> (list[models.Question], list[models.Answer]):
     test_file = io.BytesIO(test_file.read())
     document = Document(test_file)
     pars = document.paragraphs
@@ -55,7 +52,9 @@ def parse_docx_test(
     return questions, answers
 
 
-def parse_excel_test(test_file: InMemoryUploadedFile, test: models.Test):
+def parse_excel_test(
+    test_file: InMemoryUploadedFile, test: models.Test
+) -> (list[models.Question], list[models.Answer]):
     test_file = io.BytesIO(test_file.read())
     document = pd.read_excel(test_file, header=None)
     strings_data = document.values.tolist()
@@ -72,10 +71,10 @@ def parse_excel_test(test_file: InMemoryUploadedFile, test: models.Test):
         answer_name = string_data[2]
         # ответ будет считаться правильным, если третий столбец не равен пустой строке или не равен 0
         answer_is_right = not (
-                answer_name == 0 or
-                answer_name == '0' or
-                answer_name == '' or
-                (isinstance(answer_name, float) and isnan(answer_name))
+            answer_name == 0
+            or answer_name == '0'
+            or answer_name == ''
+            or (isinstance(answer_name, float) and isnan(answer_name))
         )
         # если ответом будет цифра, чтобы вместо 1.0 возвращалось 1
         if isinstance(answer_name, float) and answer_name.is_integer():

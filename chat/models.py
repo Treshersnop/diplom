@@ -2,9 +2,7 @@ from django.db import models
 
 
 class Room(models.Model):
-    participants = models.ManyToManyField(
-        'core.User', verbose_name='Участники чата', related_name='rooms', blank=True
-    )
+    participants = models.ManyToManyField('core.User', verbose_name='Участники чата', related_name='rooms', blank=True)
 
     class Meta:
         verbose_name = 'Чат'

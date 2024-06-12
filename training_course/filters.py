@@ -1,5 +1,5 @@
 import django_filters
-from django.db.models import QuerySet, Q
+from django.db.models import Q, QuerySet
 
 from training_course import models
 
@@ -15,13 +15,13 @@ class Course(django_filters.FilterSet):
 
     class Meta:
         model = models.TrainingCourse
-        fields = ('category', )
+        fields = ('category',)
 
     def get_responsible(self, queryset: QuerySet, name: str, value: str) -> QuerySet[models.TrainingCourse]:
-        for value in value.split():
+        for val in value.split():
             queryset = queryset.filter(
-                Q(responsible__profile__first_name__icontains=value) |
-                Q(responsible__profile__last_name__icontains=value) |
-                Q(responsible__profile__patronymic__icontains=value),
+                Q(responsible__profile__first_name__icontains=val)
+                | Q(responsible__profile__last_name__icontains=val)
+                | Q(responsible__profile__patronymic__icontains=val),
             )
         return queryset

@@ -3,11 +3,11 @@ from typing import Any
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
-from django.db.models import QuerySet, Subquery, OuterRef
+from django.db.models import OuterRef, QuerySet, Subquery
 from django.db.models.functions import JSONObject
-from django.http import HttpResponseRedirect, Http404
+from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import CreateView, DetailView, ListView
 
 import core.models
 from chat import forms, models
@@ -21,11 +21,11 @@ def get_room(request: WSGIRequest, pk: int) -> HttpResponseRedirect:
         if not participant:
             raise Http404
 
-        if room := models.Room.objects.filter(
-                participants__id=current_user.id
-        ).filter(
-            participants__id=participant.id
-        ).first():
+        if (
+            room := models.Room.objects.filter(participants__id=current_user.id)
+            .filter(participants__id=participant.id)
+            .first()
+        ):
             return HttpResponseRedirect(reverse('chat:room_detail', kwargs={'pk': room.id}))
 
         room = models.Room.objects.create()
@@ -47,7 +47,7 @@ class RoomDetail(LoginRequiredMixin, DetailView):
         context['messages'] = room.messages.order_by('-dc')
 
         current_user = self.request.user
-        setattr(room, 'name', room.participants.exclude(id=current_user.id).first())
+        room.name = room.participants.exclude(id=current_user.id).first()
 
         return context
 
@@ -58,13 +58,17 @@ class RoomList(ListView):
 
     def get_queryset(self) -> QuerySet:
         current_user = self.request.user
-        last_message = models.Message.objects.filter(room=OuterRef('pk')).order_by('-dc').values(
-            json=JSONObject(last_dc='dc', text_message='description')
+        last_message = (
+            models.Message.objects.filter(room=OuterRef('pk'))
+            .order_by('-dc')
+            .values(json=JSONObject(last_dc='dc', text_message='description'))
         )
 
-        return models.Room.objects.filter(
-            participants__id=current_user.id
-        ).annotate(last_message=Subquery(last_message[:1])).order_by('-last_message')
+        return (
+            models.Room.objects.filter(participants__id=current_user.id)
+            .annotate(last_message=Subquery(last_message[:1]))
+            .order_by('-last_message')
+        )
 
     def get_context_data(self, *, object_list: QuerySet | None = None, **kwargs: Any) -> dict:
         context = super().get_context_data(object_list=None, **kwargs)
@@ -72,7 +76,7 @@ class RoomList(ListView):
         room_list = context['room_list']
         current_user = self.request.user
         for room in room_list:
-            setattr(room, 'member', room.participants.exclude(id=current_user.id).first())
+            room.member = room.participants.exclude(id=current_user.id).first()
 
         return context
 
