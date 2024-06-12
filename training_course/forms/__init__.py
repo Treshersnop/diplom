@@ -1,3 +1,3 @@
-from training_course.forms.course import *  # noqa
-from training_course.forms.homework import *    # noqa
-from training_course.forms.lesson import *  # noqa
+from training_course.forms.course import *
+from training_course.forms.homework import *
+from training_course.forms.lesson import *

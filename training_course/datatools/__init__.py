@@ -1,1 +1,1 @@
-from training_course.datatools.test import *  # noqa
+from training_course.datatools.test import *
