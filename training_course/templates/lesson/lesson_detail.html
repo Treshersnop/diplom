@@ -6,7 +6,7 @@
 <div class="course">
     <div class="lesson-main-information">
         <div class="lesson-main-information">
-            <div class="name-course">
+            <div class="name-course" style="word-break: break-all;">
                 <a href="{% url 'training_course:course_detail' lesson.course.id %}">
                     <h1>Курс: {{ lesson.course.name }}</h1>
                 </a>
@@ -36,13 +36,21 @@
                 {% endfor %}
             </div>
 
+            {% if lesson.course|is_user_responsible_for_course:user.id %}
             <div class="course-add-information">
-                {% if lesson.course|is_user_responsible_for_course:user.id %}
                 <a href="{% url 'training_course:lesson_update' lesson.id %}">
                     <input type="button" class="follow button-for-authorized" value="Изменить"/>
                 </a>
-                {% endif %}
             </div>
+            <form action="{% url 'training_course:lesson_delete' lesson.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="follow button-for-authorized" value="Удалить"/>
+            </form>
+            {% endif %}
+
+            <a href="{% url 'training_course:lesson_update' lesson.id %}">
+                <input class="user-homework-btn button-for-authorized" type="button" value="Пройти тест">
+            </a>
         </div>
     </div>
 </div>
@@ -72,7 +80,8 @@
             </div>
             {% if not user_homework and not lesson.course|is_user_responsible_for_course:user.id %}
             <a href="{% url 'training_course:homework_create' lesson.task.pk %}">
-                <input class="user-homework-btn button-for-authorized" type="button" value="Прикрепить домашнее задание">
+                <input class="user-homework-btn button-for-authorized" type="button"
+                       value="Прикрепить домашнее задание">
             </a>
             {% endif %}
         </div>

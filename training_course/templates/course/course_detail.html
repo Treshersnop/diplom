@@ -7,7 +7,7 @@
     <div class="course-main-information">
         <div class="course-main-information-text">
 
-            <div class="name-course">
+            <div class="name-course" style="word-break: break-all;">
                 <h1>Название: {{ course.name }}</h1>
             </div>
             <div class="label-course">
@@ -85,6 +85,12 @@
         </a>
         {% if not lesson|does_user_do_homework:user.id %}
         <h4 class="warning-homework">Не выполнено домашнее задание!</h4>
+        {% endif %}
+        {% if course|is_user_responsible_for_course:user.id %}
+        <form action="{% url 'training_course:lesson_delete' lesson.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="follow button-for-authorized" value="Удалить"/>
+        </form>
         {% endif %}
     </div>
     {% endfor %}

@@ -21,9 +21,9 @@
     </div>
     <div class="form-label">
         <label for="{{ form.from_data.id_for_label }}">С какого числа: </label>
-        <input type="date" id="id_from_data" name="from_data"/>
+        <input type="date" id="id_from_data" name="from_data" value="{{ form.from_data.value|date:'Y-m-d' }}"/>
         <label for="{{ form.to_data.id_for_label }}">По какое число: </label>
-        <input type="date" id="id_to_data" name="to_data"/>
+        <input type="date" id="id_to_data" name="to_data" value="{{ form.to_data.value|date:'Y-m-d' }}"/>
     </div>
     <label for="{{ form.image.id_for_label }}">
         Выбрать картинку курса:

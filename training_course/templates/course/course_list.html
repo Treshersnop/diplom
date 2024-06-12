@@ -40,8 +40,8 @@
     </div>
     <div>
         <div class="content">
-            <h2>{{ course.name }}</h2>
-            <p>{{ course.description }}</p>
+            <h2 style="word-break: break-all;">{{ course.name|truncatechars:70 }}</h2>
+            <p>{{ course.description|truncatechars:400 }}</p>
         </div>
 
         {% if not course|is_user_responsible_for_course:user.id %}

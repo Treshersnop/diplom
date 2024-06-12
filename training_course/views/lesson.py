@@ -6,7 +6,9 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import Q
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views import View
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic.edit import BaseDeleteView
 
 from training_course import datatools, models, forms
 
@@ -134,3 +136,14 @@ class LessonUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self) -> str:
         return reverse('training_course:lesson_detail', kwargs={'pk': self.object.pk})
+
+
+class LessonDelete(LoginRequiredMixin, View):
+    def post(self, request: WSGIRequest, pk: int) -> HttpResponseRedirect:
+        lesson = models.Lesson.objects.filter(id=pk).first()
+        if not (lesson or lesson.course.responsible.filter(id=request.user.id).exists()):
+            raise Http404
+
+        course_id = lesson.course_id
+        lesson.delete()
+        return HttpResponseRedirect(reverse('training_course:course_detail', kwargs={'pk': course_id}))

@@ -124,7 +124,7 @@ class Subscription(models.Model):
 
 
 class Test(models.Model):
-    lesson = models.OneToOneField(Lesson, verbose_name='К уроку', related_name='test', on_delete=models.PROTECT)
+    lesson = models.OneToOneField(Lesson, verbose_name='К уроку', related_name='test', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Тест'
@@ -202,7 +202,7 @@ class Questionnaire(models.Model):
 
 class Task(models.Model):
     lesson = models.OneToOneField(
-        Lesson, verbose_name='К уроку', related_name='task', on_delete=models.PROTECT
+        Lesson, verbose_name='К уроку', related_name='task', on_delete=models.CASCADE
     )
     name = models.CharField('Название', max_length=255)
     description = models.TextField('Описание', blank=True)

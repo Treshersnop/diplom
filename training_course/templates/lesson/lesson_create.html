@@ -37,7 +37,7 @@
             <label for="{{ form.task_files.id_for_label }}">Выберите файлы: </label>
             {{ form.task_files }}
         </div>
-    <input class="button-add-new" id="add-new-task-file" type="button" value="Прикрепить еще файл">
+        <input class="button-add-new" id="add-new-task-file" type="button" value="Прикрепить еще файл">
     </div>
 
     <input class="button-add-new" id="add-new-test" type="button" value="Прикрепить тест">
@@ -45,7 +45,8 @@
         <a href="{% static 'test/test_example.docx' %}"><p>Шаблон для docx-файла</p></a>
         <a href="{% static 'test/test_example.xls' %}"><p>Шаблон для xls/xlsx-файла</p></a>
         <div class="add-files">
-            <label for="id_test_file">Прикрепите файл теста (в формате docx, xlsx или xls): </label>
+            <label for="id_test_file">Прикрепите файл теста (в формате docx, xlsx или xls). Проверьте, что файл
+                соответствует шаблону!<br/></label>
             <input id="id_test_file" type="file" name="test_file" accept=".docx, .xlsx, .xls">
         </div>
     </div>
