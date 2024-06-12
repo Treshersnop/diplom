@@ -46,6 +46,10 @@
         <a href="{% url 'training_course:course_update' course.id %}">
             <input type="button" class="follow button-for-authorized" value="Изменить"/>
         </a>
+        <form action="{% url 'training_course:course_delete' course.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" class="follow button-for-authorized" value="Удалить"/>
+        </form>
         <a href="{% url 'training_course:course_statistic' course.id %}">
             <input type="button" class="follow button-for-authorized" value="Посмотреть статистику"/>
         </a>

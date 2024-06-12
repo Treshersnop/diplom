@@ -10,6 +10,7 @@ urlpatterns = [
     path('course/create/', views.CourseCreate.as_view(), name='course_create'),
     path('course/<int:pk>/update/', views.CourseUpdate.as_view(), name='course_update'),
     path('course/<int:pk>/statistic/', views.CourseStatistic.as_view(), name='course_statistic'),
+    path('course/<int:pk>/delete/', views.CourseDelete.as_view(), name='course_delete'),
 
     path('subscription/<int:pk>/create/', views.SubscriptionCreate.as_view(), name='create_subscription'),
     path('subscription/<int:pk>/delete/', views.SubscriptionDelete.as_view(), name='delete_subscription'),

@@ -6,6 +6,7 @@ from django.db.models import QuerySet, Q, Count, F
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.urls import reverse
 from django.utils.timezone import now
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from requests import Request
 
@@ -115,3 +116,13 @@ class CourseStatistic(DetailView):
         context['subscription_statistic'] = subscription_statistic
 
         return context
+
+
+class CourseDelete(LoginRequiredMixin, View):
+    def post(self, request: Request, pk: int) -> HttpResponseRedirect:
+        course = models.TrainingCourse.objects.filter(id=pk).first()
+        if not (course or course.responsible.filter(id=request.user.id).exists()):
+            raise Http404
+
+        course.delete()
+        return HttpResponseRedirect(reverse('training_course:course_list'))
