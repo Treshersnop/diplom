@@ -14,7 +14,7 @@ class CreateLesson(forms.ModelForm):
     task_files = forms.FileField(required=False)
     test_file = forms.FileField(
         required=False,
-        validators=[FileExtensionValidator(allowed_extensions=['xlsx', 'docx'])],
+        validators=[FileExtensionValidator(allowed_extensions=['xlsx', 'docx', 'xls'])],
         error_messages={'invalid': 'Выберите верный формат!'}
     )
 
