@@ -1,34 +1,13 @@
-import io
+from io import BytesIO
 from math import isnan
 
 import pandas as pd
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from docx import Document
 
 from training_course import models
 
 
-def create_test(test_file: InMemoryUploadedFile, lesson: models.Lesson) -> None:
-    test = models.Test.objects.create(lesson=lesson)
-    # try:
-    #     questions, answers = parse_docx_test(test_file, test) if test_file.name.endswith('docx') else (
-    #         parse_excel_test(test_file, test)
-    #     )
-    #
-    #     models.Question.objects.bulk_create(questions)
-    #     models.Answer.objects.bulk_create(answers)
-    # except:
-    #     print(5)
-    questions, answers = (
-        parse_docx_test(test_file, test) if test_file.name.endswith('docx') else (parse_excel_test(test_file, test))
-    )
-
-    models.Question.objects.bulk_create(questions)
-    models.Answer.objects.bulk_create(answers)
-
-
-def parse_docx_test(test_file: InMemoryUploadedFile, test: models.Test) -> (list[models.Question], list[models.Answer]):
-    test_file = io.BytesIO(test_file.read())
+def parse_docx_test(test_file: BytesIO, test: models.Test) -> (list[models.Question], list[models.Answer]):
     document = Document(test_file)
     pars = document.paragraphs
     questions = []
@@ -52,10 +31,7 @@ def parse_docx_test(test_file: InMemoryUploadedFile, test: models.Test) -> (list
     return questions, answers
 
 
-def parse_excel_test(
-    test_file: InMemoryUploadedFile, test: models.Test
-) -> (list[models.Question], list[models.Answer]):
-    test_file = io.BytesIO(test_file.read())
+def parse_excel_test(test_file: BytesIO, test: models.Test) -> (list[models.Question], list[models.Answer]):
     document = pd.read_excel(test_file, header=None)
     strings_data = document.values.tolist()
     questions = []

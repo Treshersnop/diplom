@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from training_course import datatools, forms, models
+from training_course import forms, models, tasks
 
 
 class LessonDetail(LoginRequiredMixin, DetailView):
@@ -82,7 +82,10 @@ class LessonCreate(LoginRequiredMixin, CreateView):
                     task.files.create(file=file, name=file.name)
 
         if test_file := form.files.getlist('test_file'):
-            datatools.test.create_test(test_file[0], lesson)
+            test_file = test_file[0]
+            test_file_name = test_file.name
+            test_file = test_file.read()
+            tasks.create_test.delay(test_file_name, test_file, lesson.id)
 
         return HttpResponseRedirect(reverse('training_course:lesson_detail', kwargs={'pk': lesson.id}))
 
