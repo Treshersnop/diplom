@@ -1,1 +1,1 @@
-from core.datatools.notifications import create_notification
+from core.datatools.notifications import create_notification, get_notification_data

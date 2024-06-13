@@ -8,4 +8,4 @@ urlpatterns = [
     path('', include('core.urls', namespace='core')),
     path('', include('training_course.urls', namespace='course')),
     path('webpush/', include('webpush.urls')),
-    ]
+]

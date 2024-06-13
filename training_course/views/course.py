@@ -9,7 +9,6 @@ from django.utils.timezone import now
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from requests import Request
-from webpush import send_user_notification
 
 from training_course import filters, forms, models
 
@@ -44,8 +43,6 @@ class CourseDetail(DetailView):
         if not self.object.responsible.filter(id=current_user.id).exists():
             self.object.number_of_clicks += 1
             self.object.save(update_fields=['number_of_clicks'])
-        # отправка уведомлений
-        send_user_notification(user=current_user, payload={"head": "Welcome!", "body": "Hello World"}, ttl=1000)
 
         return response
 

@@ -18,3 +18,8 @@ class UserProfile(admin.ModelAdmin):
             return mark_safe(f'<img src="{obj.avatar.url}" width="60" height="60" />')
 
     get_avatar.short_description = 'Avatar'
+
+
+@admin.register(models.Notification)
+class Notification(admin.ModelAdmin):
+    list_display = ('title', 'target')

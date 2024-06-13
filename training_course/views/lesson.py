@@ -85,8 +85,7 @@ class LessonCreate(LoginRequiredMixin, CreateView):
             test_file = test_file[0]
             test_file_name = test_file.name
             test_file = test_file.read()
-            # tasks.create_test.delay(test_file_name, test_file, lesson.id, self.request.user.id)
-            tasks.create_test(test_file_name, test_file, lesson.id, self.request.user.id)
+            tasks.create_test.delay(test_file_name, test_file, lesson.id, self.request.user.id)
 
         return HttpResponseRedirect(reverse('training_course:lesson_detail', kwargs={'pk': lesson.id}))
 
