@@ -1,7 +1,6 @@
 celery==5.4.0
 Django==5.0.3
 django-filter==21.1
-drf-yasg==1.21.5
 flake8==7.0.0
 flake8-absolute-import==1.0.0.2
 flake8-annotations==3.0.1
@@ -22,6 +21,7 @@ pandas==2.2.2
 pillow==10.2.0
 psycopg2-binary==2.9.9
 python-docx==1.1.2
+pywebpush==2.0.0
 redis==5.0.5
 requests==2.31.0
 ruff==0.4.8

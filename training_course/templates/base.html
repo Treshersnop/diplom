@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 {% load static %}
+
+{% load webpush_notifications %}
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8"/>
@@ -16,22 +19,26 @@
             rel="stylesheet"
     />
     <title>LessonPark</title>
+    {% webpush_header %}
 </head>
 <body>
+<p> Hello World! </p>
+  # For django templating engine
+  {% webpush_button %}
 <header>
     <a class="look-not-link" href="{% url 'training_course:course_list' %}">
-    <h1>LessonPark</h1>
-        </a>
+        <h1>LessonPark</h1>
+    </a>
     {% if user.username %}
     <div class="authorization">
         {% if user.is_authenticated and user.profile %}
-            <a href="{% url 'core:profile' user_slug=user.username %}">
-                <img
-                        class="go_profile_img"
-                        src="{{ user.profile.get_avatar }}"
-                        alt="Войти в профиль"
-                        title="Войти в профиль"
-                /></a>
+        <a href="{% url 'core:profile' user_slug=user.username %}">
+            <img
+                    class="go_profile_img"
+                    src="{{ user.profile.get_avatar }}"
+                    alt="Войти в профиль"
+                    title="Войти в профиль"
+            /></a>
         <a class="nav-btn" href="{% url 'chat:room_list' %}">
             <input type="button" class="come" value="Мои чаты"/>
         </a>

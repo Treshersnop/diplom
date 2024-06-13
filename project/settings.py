@@ -31,11 +31,10 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'chat.apps.ChatConfig',
     'training_course.apps.TrainingCourseConfig',
-    'rest_framework.authtoken',
     'django_filters',
     'rest_framework',
-    'drf_yasg',
     'django_extensions',
+    'webpush',
 ]
 
 MIDDLEWARE = [
@@ -102,20 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ],
-    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S%Z',
-    'DATETIME_INPUT_FORMAT': '%Y-%m-%d %H:%M:%S%Z',
-    'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-}
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -149,3 +134,12 @@ LOGIN_URL = '/course/list/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+PUBLIC_KEY_NOTIFICATION = 'BCazMHLtkgVu-U3FLjqid6Es3eNPaIyP71sWfRKRSZaJf8hQmLG7HTHkOEUN2m3NeLWu8KPCMg361kSY5hStwRE'
+PRIVATE_KEY_NOTIFICATION = 'QKemrDRxZ0M3eHHcp2JPsvrosDTx-wDk5-pwfvX75to'
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": PUBLIC_KEY_NOTIFICATION,
+    "VAPID_PRIVATE_KEY": PRIVATE_KEY_NOTIFICATION,
+    "VAPID_ADMIN_EMAIL": "karimowakarimova@yandex.ru",
+}

@@ -41,3 +41,18 @@ class UserProfile(models.Model):
         if self.avatar:
             return self.avatar.url
         return '/static/core/img/no_image.png'
+
+
+class Notification(models.Model):
+    title = models.CharField('Заголовок', max_length=255)
+    text = models.TextField('Текст', blank=True)
+    target = models.ForeignKey(User, verbose_name='Получатель', related_name='notifications', on_delete=models.CASCADE)
+    watched_dt = models.DateTimeField('Когда просмотрено', blank=True)
+    dc = models.DateTimeField('Когда создан', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Уведомление'
+        verbose_name_plural = 'Уведомления'
+
+    def __str__(self) -> str:
+        return f'{self.dc:%d.%m.%Y} {self.title}'
